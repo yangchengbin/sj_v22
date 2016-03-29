@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>尚技-人物</title>
+    <meta charset="UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- 加载公用样式 reset.css 和 jquery -->
+    <link rel="stylesheet" type="text/css" href="http://img.ylznet.com/src/css/reset.css"/>
+    <!-- 加载当前项目专用css js -->
+    <link type="text/css" href="css/main.min.css" rel="stylesheet">
+</head>
+<body ng-app="sj_share" id="bd">
+<div ng-controller="sjPersonCtrl">
+    <div class="index_banner">
+        <div class="swipe" id="mySwipe">
+            <div class="swipe-wrap" id="swipeWrap"></div>
+        </div>
+        <ul id="position"></ul>
+    </div>
+    <div class="person_t clearfix">
+        <img ng-src="{{person.head_img}}" class="person_pic fl"/>
+        <dl class="person_dl fl">
+            <dt><span ng-bind="person.pname"></span><span class="pos" ng-bind="person.career"></span></dt>
+            <dd ng-bind="person.recommendation"></dd>
+        </dl>
+    </div>
+
+    <div class="person_d"><p ng-bind="person.description"></p><p ng-bind="person.description"></p></div>
+    <div class="person_m">
+        下载"尚技"获得更多与大师互动机会
+        <span>商品</span>
+        <span>|</span>
+        <span>学习</span>
+        <span>|</span>
+        <span>问答</span>
+    </div>
+    <div style="height: 52px;"></div>
+    <div class="s_download clearfix">
+        <img class="d_logo fl" src="http://img.zzdl.com/src_p/sj_2.0/img/d_logo.jpg"/>
+        <dl class="d_dl fl">
+            <dt>尚技</dt>
+            <dd>汇聚大师，发现记忆</dd>
+        </dl>
+        <button class="d_button fr">立即下载</button>
+    </div>
+</div>
+
+<script src="http://img.ylznet.com/src/jquery/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/rootPath.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/person.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/swipe.js"></script>
+</body>
+</html>

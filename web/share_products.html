@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>尚技-商品</title>
+    <meta charset="UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- 加载公用样式 reset.css 和 jquery -->
+    <link rel="stylesheet" type="text/css" href="http://img.ylznet.com/src/css/reset.css"/>
+    <!-- 加载当前项目专用css js -->
+    <link type="text/css" href="css/main.min.css" rel="stylesheet">
+</head>
+<body ng-app="sj_share">
+<div ng-controller="sjProductsCtrl">
+    <div class="index_banner">
+        <div class="swipe" id="mySwipe">
+            <div class="swipe-wrap" id="swipeWrap"></div>
+        </div>
+        <ul id="position"></ul>
+    </div>
+    <dl class="share_t">
+        <dt ng-bind="product.title"></dt>
+        <dd>价格： <span class="yin">&yen;</span><span class="yin" ng-bind="product.price"></span></dd>
+    </dl>
+    <dl class="share_t">
+        <dt>详情</dt>
+        <dd ng-bind="product.description"></dd>
+    </dl>
+    <dl class="share_t">
+        <dt>注意事项</dt>
+        <dd ng-bind="product.note"></dd>
+    </dl>
+    <dl class="share_f">
+        <dt>商品来自</dt>
+        <dd class="clearfix" ng-click="sharePerson()"><img ng-src="{{product.personage_head_img}}"/> <span class="name" ng-bind="product.personage_career"></span><span class="text" ng-bind="product.personage_name"></span></dd>
+    </dl>
+    <div style="height: 51px;"></div>
+    <a href="" class="getAPP">进入尚技APP立即获得</a>
+</div>
+
+<script src="http://img.ylznet.com/src/jquery/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/rootPath.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/products.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/swipe.js"></script>
+</body>
+</html>
