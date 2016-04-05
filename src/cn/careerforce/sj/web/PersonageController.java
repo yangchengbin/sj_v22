@@ -1,6 +1,8 @@
 package cn.careerforce.sj.web;
 
+import cn.careerforce.sj.service.GoodsService;
 import cn.careerforce.sj.service.PersonageService;
+import cn.careerforce.sj.service.StoryService;
 import cn.careerforce.sj.utils.Constant;
 import cn.careerforce.sj.utils.DateUtil;
 import org.apache.log4j.Logger;
@@ -29,6 +31,12 @@ public class PersonageController {
     @Resource
     private PersonageService personageService;
 
+    @Resource
+    private StoryService storyService;
+
+    @Resource
+    private GoodsService goodsService;
+
     private static final Logger logger = Logger.getLogger(UserController.class);
 
 
@@ -45,10 +53,11 @@ public class PersonageController {
         try {
             List<Map<String, Object>> persons = personageService.queryPersonInfo(personageId);
             List<Map<String, Object>> imgs = personageService.getAllPics(personageId, 2);
-
+            List<Map<String, Object>> stories = storyService.queryStoriesByPid(personageId);
             if (persons != null && persons.size() > 0) {
                 obj.put("data", persons.get(0));
                 obj.put("imgs", imgs);
+                obj.put("stories", stories);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, "操作成功");
             } else {
@@ -77,9 +86,13 @@ public class PersonageController {
             String personageId = personageService.queryPersonageId(userId);
             List<Map<String, Object>> persons = personageService.queryPersonInfo(personageId);
             List<Map<String, Object>> imgs = personageService.getAllPics(personageId, 2);
+            List<Map<String, Object>> stories = storyService.queryStoriesByPid(personageId);
+            List<Map<String, Object>> goods = goodsService.queryGoodses(userId, 1, 9999, "0");
             if (persons != null && persons.size() > 0) {
                 obj.put("data", persons.get(0));
                 obj.put("imgs", imgs);
+                obj.put("stories", stories);
+                obj.put("goods", goods);
             }
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
