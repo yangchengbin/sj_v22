@@ -127,4 +127,9 @@ public class PersonageDao {
     public List<Map<String, Object>> queryPersonsWithKey(String sql) {
         return jdbcTemplate.queryForList(sql);
     }
+
+    public String queryUserId(String personageId) {
+        String sql = "select user_id from personage where id = " + personageId;
+        return jdbcTemplate.queryForObject(sql, String.class);
+    }
 }

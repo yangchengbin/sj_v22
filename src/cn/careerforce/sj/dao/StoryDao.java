@@ -26,7 +26,7 @@ public class StoryDao {
     }
 
     public List<Map<String, Object>> queryStoryById(String id) {
-        String sql = "SELECT s.title, s.type, s.cover_img, s.video_address, s.video_cover_addr, s.content, s.description, s.personage_id, s.share_count FROM story s WHERE s.id = " + id + " AND s.valid = 1";
+        String sql = "SELECT s.title, s.type, s.cover_img, s.video_address, s.video_cover_addr, s.content, s.description, s.personage_id, p.career, p.pname, p.head_img, p.attention_count, s.share_count FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.id = " + id + " AND s.valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
 

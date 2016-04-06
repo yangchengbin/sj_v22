@@ -53,6 +53,10 @@ public class PersonageService {
         return personageDao.queryPersonageId(userId);
     }
 
+    public String queryUserId(String personageId) {
+        return personageDao.queryUserId(personageId);
+    }
+
     public List<Map<String, Object>> queryIndexCount(String categoryId) {
         return personageDao.queryIndexCount(categoryId);
     }

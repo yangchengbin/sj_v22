@@ -1,8 +1,13 @@
 package cn.careerforce.sj.web;
 
+import cn.careerforce.config.Configuration;
+import cn.careerforce.config.Global;
+import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.service.StoryService;
 import cn.careerforce.sj.utils.Constant;
 import cn.careerforce.sj.utils.DateUtil;
+import cn.careerforce.util.http.HttpRequest;
+import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +32,8 @@ import java.util.Map;
 public class StoryController {
     @Resource
     private StoryService storyService;
+    @Resource
+    private PersonageService personageService;
 
     private static final Logger logger = Logger.getLogger(StoryController.class);
 
@@ -82,11 +89,35 @@ public class StoryController {
      */
     @RequestMapping(value = "queryStoryById")
     @ResponseBody
-    public Map<String, Object> queryStoryById(String id) {
+    public Map<String, Object> queryStoryById(String id, String userId) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
-            obj.put("story", stories.get(0));
+            Map<String, Object> story = stories.get(0);
+            String personageId = story.get("personage_id").toString();
+            String puId = personageService.queryUserId(personageId);  //大师的userId
+
+            //获取评论信息
+            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
+            String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+            System.out.println(comment);
+            JSONObject commentJson = JSONObject.fromObject(comment);
+            obj.put("comments", commentJson.get("message"));
+            obj.put("commentCount", commentJson.get("totalRow"));
+            if (userId == null || "".equals(userId)) {
+                story.put("hasAttention", 0);
+            } else {
+                String urlCheck = Configuration.getValue("feeds_service_url") + "/api/follow/check?clientid=123583160&module_name=figure&object_id=" + puId + "&userid=" + userId;
+                String check = HttpRequest.getContentByUrl(urlCheck, Global.default_encoding);
+                JSONObject jsonObject = JSONObject.fromObject(check);
+                String hasAttention = jsonObject.get("message").toString();
+                if ("true".equals(hasAttention)) {
+                    story.put("hasAttention", 1);
+                } else {
+                    story.put("hasAttention", 0);
+                }
+            }
+            obj.put("story", story);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
         } catch (Exception e) {
