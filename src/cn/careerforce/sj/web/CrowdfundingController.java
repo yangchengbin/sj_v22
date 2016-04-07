@@ -41,8 +41,8 @@ public class CrowdfundingController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> cfs = crowdfundingService.queryCFByStoryId(storyId);
-            obj.put("cf", cfs.get(0));
             if (cfs.size() > 0) {
+                obj.put("cf", cfs.get(0));
                 List<Map<String, Object>> cfDetails = crowdfundingService.queryCFDetailsByCFId(cfs.get(0).get("id").toString());
                 obj.put("cfDetails", cfDetails);
             }

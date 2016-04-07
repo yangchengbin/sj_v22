@@ -21,7 +21,7 @@ public class CrowdfundingDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> queryCFByStoryId(String storyId) {
-        String sql = "SELECT id, story_id, title, free, target_price, raised_price, support_number, begin_time, end_time, `backup`, size_img, free FROM crowdfunding WHERE story_id = " + storyId + " AND valid = 1";
+        String sql = "SELECT id, story_id, cover_img, title, free, target_price, raised_price, support_number, begin_time, end_time, `backup`, size_img, free FROM crowdfunding WHERE story_id = " + storyId + " AND valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
 

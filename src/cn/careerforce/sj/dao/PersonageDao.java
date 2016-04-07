@@ -132,4 +132,11 @@ public class PersonageDao {
         String sql = "select user_id from personage where id = " + personageId;
         return jdbcTemplate.queryForObject(sql, String.class);
     }
+
+    /*添加搜索历史记录*/
+    public void addKeyHistory(String key) {
+        String sql = "INSERT INTO search_history (search_key, create_time) VALUES ('" + key + "', unix_timestamp(now()))";
+        jdbcTemplate.execute(sql);
+
+    }
 }
