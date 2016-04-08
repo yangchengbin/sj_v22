@@ -35,4 +35,9 @@ public class CrowdfundingService {
         }
         return cfDetails;
     }
+
+    /*分享页面查询众筹信息*/
+    public Map<String, Object> queryCFByStoryIdH5(String id) {
+        return crowdfundingDao.queryCFByStoryIdH5(id);
+    }
 }

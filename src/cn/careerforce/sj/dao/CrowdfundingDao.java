@@ -29,4 +29,13 @@ public class CrowdfundingDao {
         String sql = "SELECT id, name, price, number_limit_type, number_limit_count, supported_number, content, description FROM crowdfunding_detail WHERE crowdfunding_id = " + cfId + " AND valid = 1 ORDER BY id";
         return jdbcTemplate.queryForList(sql);
     }
+
+    public Map<String, Object> queryCFByStoryIdH5(String id) {
+        String sql = "SELECT c.id, c.target_price, c.raised_price, c.support_number, floor(( end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c WHERE c.story_id = " + id;
+        List<Map<String, Object>> cfs = jdbcTemplate.queryForList(sql);
+        if (cfs.size() > 0) {
+            return cfs.get(0);
+        }
+        return null;
+    }
 }

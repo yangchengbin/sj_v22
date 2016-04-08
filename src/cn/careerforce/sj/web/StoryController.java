@@ -2,6 +2,8 @@ package cn.careerforce.sj.web;
 
 import cn.careerforce.config.Configuration;
 import cn.careerforce.config.Global;
+import cn.careerforce.sj.service.CrowdfundingService;
+import cn.careerforce.sj.service.GoodsService;
 import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.service.StoryService;
 import cn.careerforce.sj.utils.Constant;
@@ -32,8 +34,15 @@ import java.util.Map;
 public class StoryController {
     @Resource
     private StoryService storyService;
+
     @Resource
     private PersonageService personageService;
+
+    @Resource
+    private CrowdfundingService crowdfundingService;
+
+    @Resource
+    private GoodsService goodsService;
 
     private static final Logger logger = Logger.getLogger(StoryController.class);
 
@@ -116,6 +125,48 @@ public class StoryController {
                     story.put("hasAttention", 0);
                 }
             }
+            obj.put("story", story);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, "操作成功");
+        } catch (Exception e) {
+            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, "操作失败");
+        }
+        return obj;
+    }
+
+    /**
+     * 获取故事详情分享页面H5
+     *
+     * @return
+     */
+    @RequestMapping(value = "queryStoryByIdH5")
+    @ResponseBody
+    public Map<String, Object> queryStoryByIdH5(String id) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> stories = storyService.queryStoryById(id);
+            Map<String, Object> story = stories.get(0);
+            String type = story.get("type").toString(); //故事类型
+            String personageId = story.get("personage_id").toString();
+            String puId = personageService.queryUserId(personageId);  //大师的userId
+
+            //获取评论信息
+            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
+            String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+            JSONObject commentJson = JSONObject.fromObject(comment);
+            obj.put("comments", commentJson.get("message"));
+            obj.put("commentCount", commentJson.get("totalRow"));
+
+            if ("1".equals(type)) {
+                Map<String, Object> cf = crowdfundingService.queryCFByStoryIdH5(id);
+                obj.put("cf", cf);
+            } else {
+                List<Map<String, Object>> goods = goodsService.queryGoodsByStoryIdH5(id);
+                obj.put("goods", goods);
+            }
+
             obj.put("story", story);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
