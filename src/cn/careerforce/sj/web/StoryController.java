@@ -100,7 +100,6 @@ public class StoryController {
             //获取评论信息
             String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
-            System.out.println(comment);
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
             obj.put("commentCount", commentJson.get("totalRow"));

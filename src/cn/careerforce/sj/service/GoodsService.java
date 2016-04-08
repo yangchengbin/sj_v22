@@ -38,4 +38,8 @@ public class GoodsService {
     public void changeCommentCnt(String goodsId, String type) {
         goodsDao.changeCommentCnt(goodsId, type);
     }
+
+    public List<Map<String, Object>> queryGoodsByStoryId(String storyId) {
+        return goodsDao.queryGoodsByStoryId(storyId);
+    }
 }

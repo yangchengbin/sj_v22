@@ -136,7 +136,7 @@ public class PersonageDao {
     /*添加搜索历史记录*/
     public void addKeyHistory(String key) {
         String sql = "INSERT INTO search_history (search_key, create_time) VALUES ('" + key + "', unix_timestamp(now()))";
-        jdbcTemplate.execute(sql);
+        jdbcTemplate.update(sql);
 
     }
 }

@@ -83,13 +83,16 @@ public class PersonageService {
         if ("0".equals(type)) {
             sql = "SELECT p.id, p.user_id, p.paddr, p.pname, p.career, p.desc_video, p.video_cover_img, p.head_img, p.cover_img, p.attention_count, p.share_count, p.description, p.recommendation, p.attention_count + p.reply_comm_count + p.service_order_count + p.goods_order_count AS degree_heat FROM personage p WHERE p.valid = 1 AND p.career LIKE '%" + key + "%' ORDER BY degree_heat DESC LIMIT " + recordIndex + ", " + pageSize;
         } else if ("1".equals(type)) {
-            sql = "SELECT p.id, p.user_id, p.paddr, p.pname, p.career, p.desc_video, p.video_cover_img, p.head_img, p.cover_img, p.attention_count, p.share_count, p.description, p.recommendation, p.attention_count + p.reply_comm_count + p.service_order_count + p.goods_order_count AS degree_heat FROM personage p WHERE p.valid = 1 AND p.pname LIKE '%" + key + "%' ORDER BY degree_heat DESC LIMIT " + recordIndex + ", " + pageSize;
-            personageDao.addKeyHistory(key);
+            sql = "SELECT p.id, p.user_id AS userid, p.pname AS title, p.career, p.head_img AS pictureUrl FROM personage p WHERE p.valid = 1 AND p.pname LIKE '%" + key + "%' LIMIT " + recordIndex + ", " + pageSize;
         } else if ("2".equals(type)) {
             sql = "SELECT p.id, p.user_id, p.paddr, p.pname, p.career, p.desc_video, p.video_cover_img, p.head_img, p.cover_img, p.attention_count, p.share_count, p.description, p.recommendation, p.attention_count + p.reply_comm_count + p.service_order_count + p.goods_order_count AS degree_heat,1 AS seq FROM personage p WHERE p.valid = 1 AND p.pname LIKE '%" + key + "%' UNION ALL SELECT p.id, p.user_id, p.paddr, p.pname, p.career, p.desc_video, p.video_cover_img, p.head_img, p.cover_img, p.attention_count, p.share_count, p.description, p.recommendation, p.attention_count + p.reply_comm_count + p.service_order_count + p.goods_order_count AS degree_heat,2 AS seq FROM personage p WHERE p.valid = 1 AND p.career LIKE '%" + key + "%' ORDER BY seq,degree_heat DESC  LIMIT " + recordIndex + ", " + pageSize;
         } else {
             return new ArrayList<Map<String, Object>>();
         }
         return personageDao.queryPersonsWithKey(sql);
+    }
+
+    public void addKeyHistory(String key) {
+        personageDao.addKeyHistory(key);
     }
 }

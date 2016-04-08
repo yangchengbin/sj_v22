@@ -290,10 +290,11 @@ public class PersonageController {
      */
     @RequestMapping(value = "queryPersonsWithKey")
     @ResponseBody
-    public Map<String, Object> queryPersonsWithKey(String type, String key, @RequestParam(defaultValue = "0") int recordIndex, @RequestParam(defaultValue = "10") int pageSize) {
+    public Map<String, Object> queryPersonsWithKey(@RequestParam(defaultValue = "1") String type, String key, @RequestParam(defaultValue = "0") int recordIndex, @RequestParam(defaultValue = "10") int pageSize) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> persons = personageService.queryPersonsWithKey(type, key, recordIndex, pageSize);
+            personageService.addKeyHistory(key);
             if (persons == null) {
                 persons = new ArrayList<Map<String, Object>>();
             }

@@ -112,9 +112,9 @@ public class GoodsController {
     /**
      * 获取商品列表
      *
-     * @param userId 人物userId
-     * @param pageNumber  页数
-     * @param pageSize    每页加载数量
+     * @param userId     人物userId
+     * @param pageNumber 页数
+     * @param pageSize   每页加载数量
      * @return
      */
     @RequestMapping(value = "queryGoodses")
@@ -154,6 +154,29 @@ public class GoodsController {
                 obj.put(Constant.REQRESULT, Constant.REQFAILED);
                 obj.put(Constant.MESSAGE, "剩余数量不足！");
             }
+        } catch (Exception e) {
+            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, "操作失败");
+        }
+        return obj;
+    }
+
+    /**
+     * 根据故事ID获取商品列表
+     *
+     * @param storyId 故事ID
+     * @return
+     */
+    @RequestMapping(value = "queryGoodsByStoryId")
+    @ResponseBody
+    public Map<String, Object> queryGoodsByStoryId(String storyId) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> goods = goodsService.queryGoodsByStoryId(storyId);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put("goods", goods);
         } catch (Exception e) {
             logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
