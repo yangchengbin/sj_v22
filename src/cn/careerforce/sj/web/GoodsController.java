@@ -55,6 +55,7 @@ public class GoodsController {
             //获取评论信息
             String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=commodity&object_id=" + goodsId + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+            comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
             obj.put("commentCount", commentJson.get("totalRow"));

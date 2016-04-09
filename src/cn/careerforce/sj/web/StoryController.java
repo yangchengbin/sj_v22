@@ -109,6 +109,7 @@ public class StoryController {
             //获取评论信息
             String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+            comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
             obj.put("commentCount", commentJson.get("totalRow"));
@@ -149,12 +150,10 @@ public class StoryController {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
             Map<String, Object> story = stories.get(0);
             String type = story.get("type").toString(); //故事类型
-            String personageId = story.get("personage_id").toString();
-            String puId = personageService.queryUserId(personageId);  //大师的userId
-
             //获取评论信息
             String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+            comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
             obj.put("commentCount", commentJson.get("totalRow"));
