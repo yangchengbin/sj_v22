@@ -1,9 +1,13 @@
 package cn.careerforce.sj.web;
 
+import cn.careerforce.config.Configuration;
+import cn.careerforce.config.Global;
 import cn.careerforce.sj.service.GoodsService;
 import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.utils.Constant;
 import cn.careerforce.sj.utils.DateUtil;
+import cn.careerforce.util.http.HttpRequest;
+import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +51,14 @@ public class GoodsController {
         try {
             List<Map<String, Object>> goods = goodsService.queryGoodsDetailInfo(goodsId);
             List<Map<String, Object>> imgs = personageService.getAllPics(goodsId, 0);
+
+            //获取评论信息
+            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=commodity&object_id=" + goodsId + "&status=0&pageNumber=1&pagesSize=2";
+            String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+            JSONObject commentJson = JSONObject.fromObject(comment);
+            obj.put("comments", commentJson.get("message"));
+            obj.put("commentCount", commentJson.get("totalRow"));
+
             if (goods != null && goods.size() > 0) {
                 obj.put("data", goods.get(0));
                 obj.put("imgs", imgs);
