@@ -1,10 +1,14 @@
 package cn.careerforce.sj.web;
 
+import cn.careerforce.config.Configuration;
+import cn.careerforce.config.Global;
 import cn.careerforce.sj.service.GoodsService;
 import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.service.StoryService;
 import cn.careerforce.sj.utils.Constant;
 import cn.careerforce.sj.utils.DateUtil;
+import cn.careerforce.util.http.HttpRequest;
+import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,21 +79,39 @@ public class PersonageController {
     /**
      * 根据userID获取人物详细信息
      *
-     * @param userId 人物ID
+     * @param userId     人物ID
+     * @param operateUid 当前登录户
      * @return
      */
     @RequestMapping(value = "queryPersonInfoByUserId")
     @ResponseBody
-    public Map<String, Object> queryPersonInfoByUserId(String userId) {
+    public Map<String, Object> queryPersonInfoByUserId(String userId, String operateUid) {
         Map<String, Object> obj = new HashMap<String, Object>();
+        String hasAttention;//是否关注
         try {
             String personageId = personageService.queryPersonageId(userId);
             List<Map<String, Object>> persons = personageService.queryPersonInfo(personageId);
             List<Map<String, Object>> imgs = personageService.getAllPics(personageId, 2);
             List<Map<String, Object>> stories = storyService.queryStoriesByPid(personageId);
             List<Map<String, Object>> goods = goodsService.queryGoodses(userId, 1, 9999, "0");
+
             if (persons != null && persons.size() > 0) {
-                obj.put("data", persons.get(0));
+                Map<String, Object> person = persons.get(0);
+                if (operateUid == null || "".equals(operateUid)) {
+                    person.put("hasAttention", 0);
+                } else {
+                    String urlCheck = Configuration.getValue("feeds_service_url") + "/api/follow/check?clientid=123583160&module_name=figure&object_id=" + userId + "&userid=" + operateUid;
+                    String check = HttpRequest.getContentByUrl(urlCheck, Global.default_encoding);
+                    JSONObject jsonObject = JSONObject.fromObject(check);
+                    hasAttention = jsonObject.get("message").toString();
+                    if ("true".equals(hasAttention)) {
+                        person.put("hasAttention", 1);
+                    } else {
+                        person.put("hasAttention", 0);
+                    }
+                }
+
+                obj.put("data", person);
                 obj.put("imgs", imgs);
                 obj.put("stories", stories);
                 obj.put("goods", goods);
