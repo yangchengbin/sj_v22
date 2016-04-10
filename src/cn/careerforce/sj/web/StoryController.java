@@ -103,6 +103,21 @@ public class StoryController {
         try {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
             Map<String, Object> story = stories.get(0);
+
+            String description = story.get("description").toString();
+            if (!"".equals(description)) {
+                String[] des = description.split("\\[\\$\\*\\$\\]");
+                StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>p{text-indent:2em;color: #333;line-height: 24px;}div {width:100%;}img {display:block; margin:10px auto;max-width:100%;}</style></head><body id='body'>");
+                for (int i = 0; i < des.length; i++) {
+                    if (des[i].startsWith("http")) {
+                        sb.append("<div><img src='").append(des[i]).append("'/></div>");
+                    } else {
+                        sb.append("<p>").append(des[i]).append("</p>");
+                    }
+                }
+                sb.append("</body></html>");
+                story.put("description", sb.toString());
+            }
             String personageId = story.get("personage_id").toString();
             String puId = personageService.queryUserId(personageId);  //大师的userId
 
@@ -149,6 +164,22 @@ public class StoryController {
         try {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
             Map<String, Object> story = stories.get(0);
+
+            String description = story.get("description").toString();
+            if (!"".equals(description)) {
+                String[] des = description.split("\\[\\$\\*\\$\\]");
+                StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>p{text-indent:2em;color: #333;line-height: 24px;}div {width:100%;}img {display:block; margin:10px auto;max-width:100%;}</style></head><body id='body'>");
+                for (int i = 0; i < des.length; i++) {
+                    if (des[i].startsWith("http")) {
+                        sb.append("<div><img src='").append(des[i]).append("'/></div>");
+                    } else {
+                        sb.append("<p>").append(des[i]).append("</p>");
+                    }
+                }
+                sb.append("</body></html>");
+                story.put("description", sb.toString());
+            }
+
             String type = story.get("type").toString(); //故事类型
             //获取评论信息
             String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
