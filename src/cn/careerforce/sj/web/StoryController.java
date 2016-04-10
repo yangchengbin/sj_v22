@@ -112,7 +112,7 @@ public class StoryController {
             comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
-            obj.put("commentCount", commentJson.get("totalRow"));
+            story.put("commentCount", commentJson.get("totalRow"));
             if (userId == null || "".equals(userId)) {
                 story.put("hasAttention", 0);
             } else {
@@ -156,7 +156,7 @@ public class StoryController {
             comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
-            obj.put("commentCount", commentJson.get("totalRow"));
+            story.put("commentCount", commentJson.get("totalRow"));
 
             if ("1".equals(type)) {
                 Map<String, Object> cf = crowdfundingService.queryCFByStoryIdH5(id);

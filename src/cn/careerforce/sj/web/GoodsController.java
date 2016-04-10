@@ -58,10 +58,10 @@ public class GoodsController {
             comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
-            obj.put("commentCount", commentJson.get("totalRow"));
-
             if (goods != null && goods.size() > 0) {
-                obj.put("data", goods.get(0));
+                Map<String, Object> good = goods.get(0);
+                good.put("commentCount", commentJson.get("totalRow"));
+                obj.put("data", good);
                 obj.put("imgs", imgs);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, "操作成功");

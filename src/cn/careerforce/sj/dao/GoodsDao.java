@@ -30,7 +30,6 @@ public class GoodsDao {
                 " g.category_id, " +
                 " g.note, " +
                 " g.share_count, " +
-                " g.comment_count, " +
                 " g.putaway, " +
                 " g.description, " +
                 " p.id AS personage_id, " +
