@@ -168,7 +168,7 @@ public class StoryController {
             String description = story.get("description").toString();
             if (!"".equals(description)) {
                 String[] des = description.split("\\[\\$\\*\\$\\]");
-                StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>p{text-indent:2em;color: #333;line-height: 24px;}div {width:100%;}img {display:block; margin:10px auto;max-width:100%;}</style></head><body id='body'>");
+                StringBuffer sb = new StringBuffer("");
                 for (int i = 0; i < des.length; i++) {
                     if (des[i].startsWith("http")) {
                         sb.append("<div><img src='").append(des[i]).append("'/></div>");
@@ -176,7 +176,6 @@ public class StoryController {
                         sb.append("<p>").append(des[i]).append("</p>");
                     }
                 }
-                sb.append("</body></html>");
                 story.put("description", sb.toString());
             }
 
