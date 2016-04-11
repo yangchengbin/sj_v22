@@ -38,4 +38,14 @@ public class CrowdfundingDao {
         }
         return null;
     }
+
+    public void changeSupportNumber(String cfdId) {
+        String sql = "UPDATE crowdfunding c, crowdfunding_detail cd SET c.support_number = c.support_number + 1, cd.supported_number = cd.supported_number + 1 WHERE c.id = cd.crowdfunding_id AND cd.id = " + cfdId;
+        jdbcTemplate.update(sql);
+    }
+
+    public void changeRaisedPrice(String cfdId, String price) {
+        String sql = "UPDATE crowdfunding c, crowdfunding_detail cd SET c.raised_price = c.raised_price + " + price + " WHERE c.id = cd.crowdfunding_id AND cd.id = " + cfdId;
+        jdbcTemplate.update(sql);
+    }
 }

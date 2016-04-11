@@ -40,4 +40,12 @@ public class CrowdfundingService {
     public Map<String, Object> queryCFByStoryIdH5(String id) {
         return crowdfundingDao.queryCFByStoryIdH5(id);
     }
+
+    public void changeSupportNumber(String cfdId) {
+        crowdfundingDao.changeSupportNumber(cfdId);
+    }
+
+    public void changeRaisedPrice(String cfdId, String price) {
+        crowdfundingDao.changeRaisedPrice(cfdId, price);
+    }
 }
