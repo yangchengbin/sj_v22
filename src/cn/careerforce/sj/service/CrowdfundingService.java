@@ -41,11 +41,15 @@ public class CrowdfundingService {
         return crowdfundingDao.queryCFByStoryIdH5(id);
     }
 
-    public void changeSupportNumber(String cfdId) {
-        crowdfundingDao.changeSupportNumber(cfdId);
+    public void changeSupportNumber(String cfdId, String type) {
+        crowdfundingDao.changeSupportNumber(cfdId, type);
     }
 
     public void changeRaisedPrice(String cfdId, String price) {
         crowdfundingDao.changeRaisedPrice(cfdId, price);
+    }
+
+    public Map<String, Object> queryCFDetailById(String cfdId) {
+        return crowdfundingDao.queryCFDetailById(cfdId);
     }
 }

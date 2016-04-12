@@ -61,14 +61,15 @@ public class CrowdfundingController {
      * 根据众筹明细ID更改众筹支持人数
      *
      * @param cfdId 众筹明细ID
+     * @param type  操作类型
      * @return
      */
     @RequestMapping(value = "changeSupportNumber")
     @ResponseBody
-    public Map<String, Object> changeSupportNumber(String cfdId) {
+    public Map<String, Object> changeSupportNumber(String cfdId, @RequestParam(defaultValue = "add") String type) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
-            crowdfundingService.changeSupportNumber(cfdId);
+            crowdfundingService.changeSupportNumber(cfdId, type);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
         } catch (Exception e) {
@@ -92,6 +93,29 @@ public class CrowdfundingController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             crowdfundingService.changeRaisedPrice(cfdId, price);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, "操作成功");
+        } catch (Exception e) {
+            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, "操作失败");
+        }
+        return obj;
+    }
+
+    /**
+     * 根据众筹明细ID获取明细信息
+     *
+     * @param cfdId 众筹明细ID
+     * @return
+     */
+    @RequestMapping(value = "queryCFDetailById")
+    @ResponseBody
+    public Map<String, Object> queryCFDetailById(String cfdId) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            Map<String, Object> cfd = crowdfundingService.queryCFDetailById(cfdId);
+            obj.put("data", cfd);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
         } catch (Exception e) {

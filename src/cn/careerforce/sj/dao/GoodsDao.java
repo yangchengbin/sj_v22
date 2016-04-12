@@ -98,12 +98,12 @@ public class GoodsDao {
     }
 
     public List<Map<String, Object>> queryGoodsByStoryId(String storyId) {
-        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g, story_goods sg WHERE g.id = sg.goods_id AND sg.story_id = " + storyId;
+        String sql = "SELECT g.id, g.cover_img, g.title, g.price, g.amount FROM goods g, story_goods sg WHERE g.id = sg.goods_id AND sg.story_id = " + storyId;
         return jdbcTemplate.queryForList(sql);
     }
 
     public List<Map<String, Object>> queryGoodsByStoryIdH5(String id) {
-        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g, story_goods sg WHERE g.id = sg.goods_id AND sg.story_id = " + id + " LIMIT 2";
+        String sql = "SELECT g.id, g.cover_img, g.title, g.price, g.mount FROM goods g, story_goods sg WHERE g.id = sg.goods_id AND sg.story_id = " + id + " LIMIT 2";
         return jdbcTemplate.queryForList(sql);
     }
 }
