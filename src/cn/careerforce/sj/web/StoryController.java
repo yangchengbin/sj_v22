@@ -141,6 +141,14 @@ public class StoryController {
                     story.put("hasAttention", 0);
                 }
             }
+
+            //获取关注数量
+            String attUrl = Configuration.getValue("feeds_service_url") + "/api/follow/query/count?clientid=123583160&module_name=figure&object_id=" + puId;
+            String attention = HttpRequest.getContentByUrl(attUrl, Global.default_encoding);
+            attention = attention.replaceAll(":null,", ":\"\",");
+            JSONObject attentionJson = JSONObject.fromObject(attention);
+            story.put("attention_count", attentionJson.get("message"));
+
             obj.put("story", story);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
@@ -180,6 +188,8 @@ public class StoryController {
             }
 
             String type = story.get("type").toString(); //故事类型
+            String personageId = story.get("personage_id").toString();
+            String puId = personageService.queryUserId(personageId);  //大师的userId
             //获取评论信息
             String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
@@ -187,6 +197,13 @@ public class StoryController {
             JSONObject commentJson = JSONObject.fromObject(comment);
             obj.put("comments", commentJson.get("message"));
             story.put("commentCount", commentJson.get("totalRow"));
+
+            //获取关注数量
+            String attUrl = Configuration.getValue("feeds_service_url") + "/api/follow/query/count?clientid=123583160&module_name=figure&object_id=" + puId;
+            String attention = HttpRequest.getContentByUrl(attUrl, Global.default_encoding);
+            attention = attention.replaceAll(":null,", ":\"\",");
+            JSONObject attentionJson = JSONObject.fromObject(attention);
+            story.put("attention_count", attentionJson.get("message"));
 
             if ("1".equals(type)) {
                 Map<String, Object> cf = crowdfundingService.queryCFByStoryIdH5(id);

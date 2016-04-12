@@ -97,6 +97,15 @@ public class PersonageController {
 
             if (persons != null && persons.size() > 0) {
                 Map<String, Object> person = persons.get(0);
+
+                //获取关注数量
+                String attUrl = Configuration.getValue("feeds_service_url") + "/api/follow/query/count?clientid=123583160&module_name=figure&object_id=" + userId;
+                String attention = HttpRequest.getContentByUrl(attUrl, Global.default_encoding);
+                attention = attention.replaceAll(":null,", ":\"\",");
+                JSONObject attentionJson = JSONObject.fromObject(attention);
+                person.put("attention_count", attentionJson.get("message"));
+
+
                 if (operateUid == null || "".equals(operateUid)) {
                     person.put("hasAttention", 0);
                 } else {
