@@ -55,7 +55,7 @@ public class CrowdfundingDao {
     }
 
     public Map<String, Object> queryCFDetailById(String cfdId) {
-        String sql = "SELECT `name`, price, number_limit_type, number_limit_count, supported_number, content, crowdfunding_id, description, create_time FROM crowdfunding_detail WHERE valid = 1 AND id = " + cfdId;
+        String sql = "SELECT cd.`name`, cd.price, cd.number_limit_type, cd.number_limit_count, cd.supported_number, cd.content, cd.crowdfunding_id, cd.description, c.begin_time, c.end_time FROM crowdfunding_detail cd, crowdfunding c WHERE c.id = cd.crowdfunding_id AND cd.valid = 1 AND cd.id = " + cfdId;
         return jdbcTemplate.queryForMap(sql);
     }
 }
