@@ -217,6 +217,7 @@ public class StoryController {
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
             obj.put(Constant.MESSAGE, "操作失败");
