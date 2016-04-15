@@ -31,7 +31,7 @@ public class StoryDao {
     }
 
     public List<Map<String, Object>> queryStoriesByPid(String pid) {
-        String sql = "SELECT s.id, s.title, s.type, s.cover_img FROM story s WHERE personage_id = " + pid + " AND valid = 1";
+        String sql = "SELECT s.id, s.title, s.type, s.cover_img FROM story s WHERE personage_id = " + pid + " AND valid = 1 ORDER BY create_time DESC";
         return jdbcTemplate.queryForList(sql);
     }
 }

@@ -51,15 +51,7 @@ public class GoodsDao {
     }
 
     public List<Map<String, Object>> queryGoodses(String userId, int pageNumber, int pageSize, String orderType) {
-        String orderBy = "";
-        if ("0".equals(orderType)) {
-            orderBy = " ORDER BY g.share_count DESC, g.comment_count DESC ";
-        } else if ("1".equals(orderType)) {
-            orderBy = " ORDER BY g.share_count DESC ";
-        } else if ("2".equals(orderType)) {
-            orderBy = " ORDER BY g.comment_count DESC ";
-        }
-
+        String orderBy = " ORDER BY g.create_time DESC";
         String sql = "SELECT " +
                 " g.id, " +
                 " g.title, " +
