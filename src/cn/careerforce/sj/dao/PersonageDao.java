@@ -21,7 +21,7 @@ public class PersonageDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> queryPersonInfo(String personageId) {
-        String sql = "SELECT id, user_id, pname, paddr, career, head_img, cover_img, cover_img_detail, desc_video, video_cover_img, attention_count, share_count, description, LEFT(description , 100) AS sub_desc, recommendation, attention_count+reply_comm_count+service_order_count+goods_order_count AS degree_heat FROM personage WHERE id = " + personageId;
+        String sql = "SELECT id, user_id, pname, paddr, career, head_img, cover_img, cover_img_detail, desc_video, cover_img_detail AS video_cover_img, attention_count, share_count, description, LEFT(description , 100) AS sub_desc, recommendation, attention_count+reply_comm_count+service_order_count+goods_order_count AS degree_heat FROM personage WHERE id = " + personageId;
         return jdbcTemplate.queryForList(sql);
     }
 
