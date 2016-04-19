@@ -21,7 +21,7 @@ public class CrowdfundingDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> queryCFByStoryId(String storyId) {
-        String sql = "SELECT id, story_id, cover_img, title, free, target_price, raised_price, support_number, begin_time, end_time, floor(( end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, `backup`, size_img, free FROM crowdfunding WHERE story_id = " + storyId + " AND valid = 1";
+        String sql = "SELECT c.id, c.story_id, c.cover_img, s.title, c.free, c.target_price, c.raised_price, c.support_number, c.begin_time, c.end_time, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) + 1 AS remain_days, c.`backup`, c.size_img FROM crowdfunding c, story s WHERE s.id = c.story_id AND c.story_id = " + storyId + " AND c.valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
 
@@ -31,7 +31,7 @@ public class CrowdfundingDao {
     }
 
     public Map<String, Object> queryCFByStoryIdH5(String id) {
-        String sql = "SELECT c.id, c.target_price, c.raised_price, c.support_number, floor(( end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c WHERE c.story_id = " + id;
+        String sql = "SELECT c.id, c.target_price, c.raised_price, c.support_number, ceil(( end_time - UNIX_TIMESTAMP(now())) / 86400 ) + 1 AS remain_days FROM crowdfunding c WHERE c.story_id = " + id;
         List<Map<String, Object>> cfs = jdbcTemplate.queryForList(sql);
         if (cfs.size() > 0) {
             return cfs.get(0);
