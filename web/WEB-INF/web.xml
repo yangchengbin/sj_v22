@@ -50,6 +50,19 @@
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
 
+
+    <filter>
+        <filter-name>InterfaceInvokeRecord</filter-name>
+        <filter-class>
+            cn.careerforce.sj.filter.InterfaceInvokeRecord
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>InterfaceInvokeRecord</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
+
     <!--系统主要的过滤器-->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
