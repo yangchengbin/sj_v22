@@ -21,7 +21,7 @@ public class StoryDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> queryStories(int recordIndex, int pageSize) {
-        String sql = "SELECT s.id, s.title, s.type, s.cover_img, s.video_address, s.video_cover_addr, s.content, s.description, s.share_count, p.career, p.pname, p.head_img, 1 AS t, so.seq FROM story s LEFT JOIN personage p ON p.id = s.personage_id, story_order so WHERE s.valid = 1 AND s.push = 1 AND s.id = so.story_id UNION ALL SELECT s.id, s.title, s.type, s.cover_img, s.video_address, s.video_cover_addr, s.content, s.description, s.share_count, p.career, p.pname, p.head_img, 2 AS t, 9999 AS seq FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.valid = 1 AND s.push = 1 AND s.id NOT IN ( SELECT story_id FROM story_order ) ORDER BY t, seq LIMIT " + recordIndex + ", " + pageSize;
+        String sql = "SELECT s.id, s.title, s.type, s.cover_img, s.video_address, s.video_cover_addr, s.content, s.description, s.share_count, p.career, p.pname, p.head_img, 1 AS t, so.seq, s.create_time FROM story s LEFT JOIN personage p ON p.id = s.personage_id, story_order so WHERE s.valid = 1 AND s.push = 1 AND s.id = so.story_id UNION ALL SELECT s.id, s.title, s.type, s.cover_img, s.video_address, s.video_cover_addr, s.content, s.description, s.share_count, p.career, p.pname, p.head_img, 2 AS t, 9999 AS seq, s.create_time FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.valid = 1 AND s.push = 1 AND s.id NOT IN ( SELECT story_id FROM story_order ) ORDER BY t, seq, create_time DESC LIMIT " + recordIndex + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 
