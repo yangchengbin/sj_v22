@@ -26,7 +26,7 @@ public class CrowdfundingDao {
     }
 
     public List<Map<String, Object>> queryCFDetailsByCFId(String cfId) {
-        String sql = "SELECT id, name, price, number_limit_type, number_limit_count, supported_number, content, description FROM crowdfunding_detail WHERE crowdfunding_id = " + cfId + " AND valid = 1 ORDER BY number_limit_type DESC";
+        String sql = "SELECT id, NAME, price, number_limit_type, number_limit_count, supported_number, content, description, 1 AS seq FROM crowdfunding_detail WHERE number_limit_count > supported_number AND crowdfunding_id = " + cfId + " AND number_limit_type = 1 AND valid = 1 UNION ALL SELECT id, NAME, price, number_limit_type, number_limit_count, supported_number, content, description, 2 AS seq FROM crowdfunding_detail WHERE crowdfunding_id = " + cfId + " AND number_limit_type = 0 AND valid = 1 UNION ALL SELECT id, NAME, price, number_limit_type, number_limit_count, supported_number, content, description, 3 AS seq FROM crowdfunding_detail WHERE crowdfunding_id = " + cfId + " AND number_limit_type = 1 AND number_limit_count <= supported_number AND valid = 1 ORDER BY seq, price";
         return jdbcTemplate.queryForList(sql);
     }
 
