@@ -187,6 +187,20 @@ public class StoryController {
                 story.put("description", sb.toString());
             }
 
+            String pDesc = story.get("pDesc").toString();
+            if (!"".equals(pDesc)) {
+                String[] des = pDesc.split("\\[\\$\\*\\$\\]");
+                StringBuffer sb = new StringBuffer("");
+                for (int i = 0; i < des.length; i++) {
+                    if (des[i].startsWith("http")) {
+                        sb.append("<div><img src='").append(des[i]).append("'/></div>");
+                    } else {
+                        sb.append("<p>").append(des[i]).append("</p>");
+                    }
+                }
+                story.put("pDesc", sb.toString());
+            }
+
             String type = story.get("type").toString(); //故事类型
             String personageId = story.get("personage_id").toString();
             String puId = personageService.queryUserId(personageId);  //大师的userId
