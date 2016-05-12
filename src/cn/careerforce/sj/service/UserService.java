@@ -53,4 +53,8 @@ public class UserService {
     public String checkForbid(String userId) {
         return userDao.checkForbid(userId);
     }
+
+    public void addImproveInfo(String content, String contactInfo) {
+        userDao.addImproveInfo(content, contactInfo);
+    }
 }

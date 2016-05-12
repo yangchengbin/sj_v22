@@ -90,4 +90,9 @@ public class UserDao {
         String sql = "SELECT forbid FROM `user` WHERE id = '" + userId + "'";
         return jdbcTemplate.queryForObject(sql, String.class);
     }
+
+    public void addImproveInfo(String content, String contactInfo) {
+        String sql = "INSERT INTO improvement ( content, contact_info, create_time ) VALUES ( ?, ?, UNIX_TIMESTAMP(now()))";
+        jdbcTemplate.update(sql, content, contactInfo);
+    }
 }

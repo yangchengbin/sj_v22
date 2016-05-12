@@ -94,11 +94,14 @@ public class StoryController {
     /**
      * 获取故事详情
      *
+     * @param id
+     * @param userId   用户Id
+     * @param deviceNo 用户设备号
      * @return
      */
     @RequestMapping(value = "queryStoryById")
     @ResponseBody
-    public Map<String, Object> queryStoryById(String id, String userId) {
+    public Map<String, Object> queryStoryById(String id, String userId, @RequestParam(value = "device_no", defaultValue = "0") String deviceNo) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
@@ -122,7 +125,7 @@ public class StoryController {
             String puId = personageService.queryUserId(personageId);  //大师的userId
 
             //获取评论信息
-            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
+            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&device_no=" + deviceNo + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
             comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);
@@ -163,11 +166,13 @@ public class StoryController {
     /**
      * 获取故事详情分享页面H5
      *
+     * @param id
+     * @param deviceNo 用户设备号
      * @return
      */
     @RequestMapping(value = "queryStoryByIdH5")
     @ResponseBody
-    public Map<String, Object> queryStoryByIdH5(String id) {
+    public Map<String, Object> queryStoryByIdH5(String id, @RequestParam(value = "device_no", defaultValue = "0") String deviceNo) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
@@ -205,7 +210,7 @@ public class StoryController {
             String personageId = story.get("personage_id").toString();
             String puId = personageService.queryUserId(personageId);  //大师的userId
             //获取评论信息
-            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&status=0&pageNumber=1&pagesSize=2";
+            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=story&object_id=" + id + "&device_no=" + deviceNo + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
             comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);

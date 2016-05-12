@@ -41,19 +41,20 @@ public class GoodsController {
     /**
      * 获取商品详情
      *
-     * @param goodsId 商品ID
+     * @param goodsId  商品ID
+     * @param deviceNo 用户手机设备号
      * @return
      */
     @RequestMapping(value = "queryGoodsDetailInfo")
     @ResponseBody
-    public Map<String, Object> queryGoodsDetailInfo(String goodsId) {
+    public Map<String, Object> queryGoodsDetailInfo(String goodsId, @RequestParam(value = "device_no", defaultValue = "0") String deviceNo) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> goods = goodsService.queryGoodsDetailInfo(goodsId);
             List<Map<String, Object>> imgs = personageService.getAllPics(goodsId, 0);
 
             //获取评论信息
-            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=commodity&object_id=" + goodsId + "&status=0&pageNumber=1&pagesSize=2";
+            String url = Configuration.getValue("feeds_service_url") + "/api/comment/query/list?clientid=123583160&module_name=commodity&object_id=" + goodsId + "&device_no=" + deviceNo + "&status=0&pageNumber=1&pagesSize=2";
             String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
             comment = comment.replaceAll(":null,", ":\"\",");
             JSONObject commentJson = JSONObject.fromObject(comment);

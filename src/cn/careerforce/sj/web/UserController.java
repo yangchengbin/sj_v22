@@ -295,4 +295,27 @@ public class UserController {
         obj.put("startup", startup);
         return obj;
     }
+
+    /**
+     * 添加改进意见
+     *
+     * @param content     改进内容
+     * @param contactInfo 联系方式
+     * @return
+     */
+    @RequestMapping(value = "addImproveInfo")
+    @ResponseBody
+    public Map<String, Object> addImproveInfo(String content, @RequestParam("contact_info") String contactInfo) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            userService.addImproveInfo(content, contactInfo);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, "操作成功");
+        } catch (Exception e) {
+            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, "操作失败");
+        }
+        return obj;
+    }
 }
