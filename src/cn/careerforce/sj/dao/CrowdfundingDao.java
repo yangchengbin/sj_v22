@@ -58,4 +58,14 @@ public class CrowdfundingDao {
         String sql = "SELECT cd.`name`, cd.price, cd.number_limit_type, cd.number_limit_count, cd.supported_number, cd.content, cd.crowdfunding_id, cd.description, c.begin_time, c.end_time, c.cover_img FROM crowdfunding_detail cd, crowdfunding c WHERE c.id = cd.crowdfunding_id AND cd.valid = 1 AND cd.id = " + cfdId;
         return jdbcTemplate.queryForMap(sql);
     }
+
+    public int queryCurCrowdStatus(String cfdId) {
+        String sql = "SELECT IF ( c.raised_price < c.target_price, 0, 1 ) AS crowd_status FROM crowdfunding c, crowdfunding_detail cd WHERE c.id = cd.crowdfunding_id AND cd.id = " + cfdId;
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
+    public List<Map<String, Object>> queryAllCrowdDetailIds(String cfdId) {
+        String sql = "SELECT cd.id FROM crowdfunding_detail cd WHERE cd.crowdfunding_id = ( SELECT crowdfunding_id FROM crowdfunding_detail WHERE id = " + cfdId + " )";
+        return jdbcTemplate.queryForList(sql);
+    }
 }

@@ -93,6 +93,19 @@ public class CrowdfundingController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             crowdfundingService.changeRaisedPrice(cfdId, price);
+            int status = crowdfundingService.queryCurCrowdStatus(cfdId);
+            obj.put("crowd_status", status);
+            if (status == 1) {
+                List<Map<String, Object>> ids = crowdfundingService.queryAllCrowdDetailIds(cfdId);
+                StringBuffer sb = new StringBuffer("");
+                for (Map<String, Object> id : ids) {
+                    sb.append(id.get("id")).append(",");
+                }
+                if (sb.length() > 0) {
+                    sb = sb.deleteCharAt(sb.length() - 1);
+                    obj.put("cfdIds", sb.toString());
+                }
+            }
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");
         } catch (Exception e) {

@@ -52,4 +52,24 @@ public class CrowdfundingService {
     public Map<String, Object> queryCFDetailById(String cfdId) {
         return crowdfundingDao.queryCFDetailById(cfdId);
     }
+
+    /**
+     * 根据众筹明细获取当前众筹是否完成状态
+     *
+     * @param cfdId
+     * @return
+     */
+    public int queryCurCrowdStatus(String cfdId) {
+        return crowdfundingDao.queryCurCrowdStatus(cfdId);
+    }
+
+    /**
+     * 获取所有的众筹明细Id
+     *
+     * @param cfdId
+     * @return
+     */
+    public List<Map<String, Object>> queryAllCrowdDetailIds(String cfdId) {
+        return crowdfundingDao.queryAllCrowdDetailIds(cfdId);
+    }
 }
