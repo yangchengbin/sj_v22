@@ -96,15 +96,8 @@ public class CrowdfundingController {
             int status = crowdfundingService.queryCurCrowdStatus(cfdId);
             obj.put("crowd_status", status);
             if (status == 1) {
-                List<Map<String, Object>> ids = crowdfundingService.queryAllCrowdDetailIds(cfdId);
-                StringBuffer sb = new StringBuffer("");
-                for (Map<String, Object> id : ids) {
-                    sb.append(id.get("id")).append(",");
-                }
-                if (sb.length() > 0) {
-                    sb = sb.deleteCharAt(sb.length() - 1);
-                    obj.put("cfdIds", sb.toString());
-                }
+                String ids = crowdfundingService.queryAllCrowdDetailIds(cfdId);
+                obj.put("cfdIds", ids);
             }
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, "操作成功");

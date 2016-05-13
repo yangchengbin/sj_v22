@@ -69,7 +69,7 @@ public class CrowdfundingService {
      * @param cfdId
      * @return
      */
-    public List<Map<String, Object>> queryAllCrowdDetailIds(String cfdId) {
+    public String queryAllCrowdDetailIds(String cfdId) {
         return crowdfundingDao.queryAllCrowdDetailIds(cfdId);
     }
 }

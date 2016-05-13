@@ -64,8 +64,8 @@ public class CrowdfundingDao {
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
-    public List<Map<String, Object>> queryAllCrowdDetailIds(String cfdId) {
-        String sql = "SELECT cd.id FROM crowdfunding_detail cd WHERE cd.crowdfunding_id = ( SELECT crowdfunding_id FROM crowdfunding_detail WHERE id = " + cfdId + " )";
-        return jdbcTemplate.queryForList(sql);
+    public String queryAllCrowdDetailIds(String cfdId) {
+        String sql = "SELECT GROUP_CONCAT(cd.id) AS id FROM crowdfunding_detail cd WHERE cd.crowdfunding_id = ( SELECT crowdfunding_id FROM crowdfunding_detail WHERE id = " + cfdId + " )";
+        return jdbcTemplate.queryForObject(sql, String.class);
     }
 }
