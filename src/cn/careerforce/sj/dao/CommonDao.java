@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,5 +46,20 @@ public class CommonDao {
             return;
         }
         jdbcTemplate.update(sql);
+    }
+
+    public List<Map<String, Object>> queryMasters() {
+        String sql = "SELECT p.user_id, p.head_img, p.pname FROM personage p WHERE p.valid = 1 ORDER BY p.seq LIMIT 5";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    public List<Map<String, Object>> queryCrowds() {
+        String sql = "SELECT c.id, c.title, c.cover_img, c.target_price, c.raised_price, c.support_number, p.head_img, p.pname, p.career, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id WHERE c.valid = 1 ORDER BY c.create_time DESC LIMIT 3";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    public List<Map<String, Object>> queryProducts(int recordIndex, int pageSize) {
+        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 AND g.putaway = 1 ORDER BY g.seq LIMIT " + recordIndex + " , " + pageSize;
+        return jdbcTemplate.queryForList(sql);
     }
 }

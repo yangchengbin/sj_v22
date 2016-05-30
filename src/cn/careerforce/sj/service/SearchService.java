@@ -32,11 +32,11 @@ public class SearchService {
     public List<Map<String, Object>> queryRecords(String key, int type, int pageNumber, int pageSize) {
         switch (type) {
             case 0:
-                return searchDao.queryMasters(key, pageNumber, pageSize);
+                return searchDao.queryMasters(type, key, pageNumber, pageSize);
             case 1:
-                return searchDao.queryProducts(key, pageNumber, pageSize);
+                return searchDao.queryProducts(type, key, pageNumber, pageSize);
             case 2:
-                return searchDao.queryCrowdfundings(key, pageNumber, pageSize);
+                return searchDao.queryCrowdfundings(type, key, pageNumber, pageSize);
             default:
                 return null;
         }

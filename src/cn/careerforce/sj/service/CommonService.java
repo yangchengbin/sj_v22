@@ -8,6 +8,8 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -49,5 +51,32 @@ public class CommonService {
             return commentJson;
         }
         return null;
+    }
+
+    /**
+     * 发现页查询人物
+     *
+     * @return
+     */
+    public List<Map<String, Object>> queryMasters() {
+        return commonDao.queryMasters();
+    }
+
+    /**
+     * 发现页查询众筹
+     *
+     * @return
+     */
+    public List<Map<String, Object>> queryCrowds() {
+        return commonDao.queryCrowds();
+    }
+
+    /**
+     * 发现页查询商品
+     *
+     * @return
+     */
+    public List<Map<String, Object>> queryProducts(int recordIndex, int pageSize) {
+        return commonDao.queryProducts(recordIndex, pageSize);
     }
 }
