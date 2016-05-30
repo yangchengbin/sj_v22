@@ -19,9 +19,26 @@ public class SearchService {
     @Resource
     private SearchDao searchDao;
 
-
     public List<Map<String, Object>> queryAllKeys() {
         String sql = "SELECT `key`, type FROM retrieval WHERE valid = 1";
         return searchDao.queryAllKeys(sql);
+    }
+
+    /**
+     * @param key
+     * @param type 0大师 1商品 2众筹
+     * @return
+     */
+    public List<Map<String, Object>> queryRecords(String key, int type, int pageNumber, int pageSize) {
+        switch (type) {
+            case 0:
+                return searchDao.queryMasters(key, pageNumber, pageSize);
+            case 1:
+                return searchDao.queryProducts(key, pageNumber, pageSize);
+            case 2:
+                return searchDao.queryCrowdfundings(key, pageNumber, pageSize);
+            default:
+                return null;
+        }
     }
 }

@@ -23,4 +23,19 @@ public class SearchDao {
     public List<Map<String, Object>> queryAllKeys(String sql) {
         return jdbcTemplate.queryForList(sql);
     }
+
+    public List<Map<String, Object>> queryMasters(String key, int pageNumber, int pageSize) {
+        String sql = "SELECT p.head_img, p.user_id, p.pname, p.career, EXISTS ( SELECT id FROM crowdfunding WHERE personage_id = p.id AND end_time > UNIX_TIMESTAMP() AND begin_time < UNIX_TIMESTAMP()) AS is_crowd FROM personage p WHERE p.valid = 1 AND p.pname LIKE ? LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        return jdbcTemplate.queryForList(sql, "%" + key + "%");
+    }
+
+    public List<Map<String, Object>> queryProducts(String key, int pageNumber, int pageSize) {
+        String sql = "SELECT g.id, g.cover_img AS goods_cover, g.title, g.price FROM goods g WHERE g.valid = 1 AND g.title LIKE ? LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        return jdbcTemplate.queryForList(sql, "%" + key + "%");
+    }
+
+    public List<Map<String, Object>> queryCrowdfundings(String key, int pageNumber, int pageSize) {
+        String sql = "SELECT c.id, c.cover_img AS crowd_cover, p.pname AS master_name, p.career AS master_career, c.title AS crowd_title, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id WHERE c.valid = 1 AND c.title LIKE ? LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        return jdbcTemplate.queryForList(sql, "%" + key + "%");
+    }
 }
