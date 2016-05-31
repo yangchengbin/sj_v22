@@ -51,4 +51,7 @@ public class GoodsService {
         return goodsDao.queryPersonProducts(userId);
     }
 
+    public List<Map<String, Object>> queryProductsByStoryId(String id) {
+        return goodsDao.queryProductsByStoryId(id);
+    }
 }

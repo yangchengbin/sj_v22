@@ -51,4 +51,8 @@ public class StoryService {
     public List<Map<String, Object>> queryPersonStories(String userId) {
         return storyDao.queryPersonStories(userId);
     }
+
+    public List<Map<String, Object>> queryStoryMain(String id) {
+        return storyDao.queryStoryMain(id);
+    }
 }

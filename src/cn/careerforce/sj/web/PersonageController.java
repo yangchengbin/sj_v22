@@ -397,4 +397,31 @@ public class PersonageController {
         }
         return obj;
     }
+
+    /**
+     * 根据userID获取人物更多详细信息
+     *
+     * @param userId 人物ID
+     * @return
+     */
+    @RequestMapping(value = "queryPersonMoreInfo")
+    @ResponseBody
+    public Map<String, Object> queryPersonMoreInfo(@RequestParam(required = true) String userId) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> persons = personageService.queryPersonMoreInfo(userId);
+            if (persons != null && persons.size() > 0) {
+                obj.put("person", persons.get(0));
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }

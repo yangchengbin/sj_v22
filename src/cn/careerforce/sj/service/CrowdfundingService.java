@@ -82,4 +82,8 @@ public class CrowdfundingService {
     public List<Map<String, Object>> queryPersonCrowds(String userId) {
         return crowdfundingDao.queryPersonCrowds(userId);
     }
+
+    public List<Map<String, Object>> queryCFMain(String id) {
+        return crowdfundingDao.queryCFMain(id);
+    }
 }

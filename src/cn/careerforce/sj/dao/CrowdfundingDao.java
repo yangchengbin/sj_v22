@@ -73,4 +73,9 @@ public class CrowdfundingDao {
         String sql = "SELECT c.id, c.cover_img, c.title, c.target_price, c.raised_price, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag FROM crowdfunding c, personage p WHERE c.personage_id = p.id AND p.user_id = " + userId + " AND c.valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
+
+    public List<Map<String, Object>> queryCFMain(String id) {
+        String sql = "SELECT c.id, c.cover_img, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c WHERE c.story_id = " + id + " AND c.valid = 1";
+        return jdbcTemplate.queryForList(sql);
+    }
 }

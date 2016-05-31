@@ -99,4 +99,8 @@ public class PersonageService {
     public List<Map<String, Object>> queryPersonMain(String userId) {
         return personageDao.queryPersonMain(userId);
     }
+
+    public List<Map<String, Object>> queryPersonMoreInfo(String userId) {
+        return personageDao.queryPersonMoreInfo(userId);
+    }
 }

@@ -2,10 +2,7 @@ package cn.careerforce.sj.web;
 
 import cn.careerforce.config.Configuration;
 import cn.careerforce.config.Global;
-import cn.careerforce.sj.service.CrowdfundingService;
-import cn.careerforce.sj.service.GoodsService;
-import cn.careerforce.sj.service.PersonageService;
-import cn.careerforce.sj.service.StoryService;
+import cn.careerforce.sj.service.*;
 import cn.careerforce.sj.utils.Constant;
 import cn.careerforce.util.http.HttpRequest;
 import net.sf.json.JSONObject;
@@ -42,6 +39,9 @@ public class StoryController {
 
     @Resource
     private GoodsService goodsService;
+
+    @Resource
+    private CommonService commonService;
 
     private static final Logger logger = Logger.getLogger(StoryController.class);
 
@@ -265,6 +265,76 @@ public class StoryController {
             List<Map<String, Object>> stories = storyService.queryStoriesMain(pageNumber, pageSize);
             if (stories != null && stories.size() > 0) {
                 obj.put("stories", stories);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
+
+    /**
+     * 获取故事详情
+     *
+     * @param id       故事id
+     * @param deviceNo 用户设备号
+     * @return
+     */
+    @RequestMapping(value = "queryStoryMain")
+    @ResponseBody
+    public Map<String, Object> queryStoryMain(String id, @RequestParam(value = "device_no", defaultValue = "0") String deviceNo) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> stories = storyService.queryStoryMain(id);
+            if (stories != null && stories.size() > 0) {
+                Map<String, Object> story = stories.get(0);
+                //-------------装配详情字段-------------
+                String description = story.get("description").toString();
+                if (!"".equals(description)) {
+                    String[] des = description.split("\\[\\$\\*\\$\\]");
+                    StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>body{padding:0;margin:0;}p{margin-bottom:10px;color:#585858;text-align:left;font-size:14px;line-height:24px;text-indent:2em;padding:6px 16px;}img{width:100%;margin-top:6px;}</style></head><body id='body'>");
+                    for (int i = 0; i < des.length; i++) {
+                        if (des[i].startsWith("http")) {
+                            sb.append("<div><img src='").append(des[i]).append("'/></div>");
+                        } else {
+                            sb.append("<p>").append(des[i]).append("</p>");
+                        }
+                    }
+                    sb.append("</body></html>");
+                    story.put("description", sb.toString());
+                }
+                //---------------获取评论信息----------------------
+                JSONObject commentJson = commonService.queryComments("story", id, deviceNo, 0, 1, 2);
+                if (commentJson != null) {
+                    story.put("commentCount", commentJson.get("totalRow"));
+                    obj.put("comments", commentJson.get("message"));
+                } else {
+                    story.put("commentCount", 0);
+                    obj.put("comments", null);
+                }
+                obj.put("story", story);
+
+                String type = story.get("type").toString();//故事类型 1众筹 2商品 3纯故事
+                if ("1".equals(type)) {
+                    List<Map<String, Object>> crowds = crowdfundingService.queryCFMain(id);
+                    if (crowds != null && crowds.size() > 0) {
+                        obj.put("crowd", crowds.get(0));
+                    } else {
+                        obj.put("crowd", null);
+                    }
+                } else if ("2".equals(type)) {
+                    List<Map<String, Object>> products = goodsService.queryProductsByStoryId(id);
+                    if (products != null && products.size() > 0) {
+                        obj.put("product", products);
+                    } else {
+                        obj.put("product", null);
+                    }
+                }
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
