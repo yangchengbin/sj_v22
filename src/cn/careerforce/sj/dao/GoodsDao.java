@@ -98,4 +98,9 @@ public class GoodsDao {
         String sql = "SELECT g.id, g.cover_img, g.title, g.price, g.amount, g.putaway FROM goods g, story_goods sg WHERE g.id = sg.goods_id AND sg.story_id = " + id + " LIMIT 2";
         return jdbcTemplate.queryForList(sql);
     }
+
+    public List<Map<String, Object>> queryPersonProducts(String userId) {
+        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g, personage p WHERE g.personage_id = p.id AND p.user_id = " + userId + " AND g.valid = 1";
+        return jdbcTemplate.queryForList(sql);
+    }
 }

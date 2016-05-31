@@ -72,4 +72,14 @@ public class CrowdfundingService {
     public String queryAllCrowdDetailIds(String cfdId) {
         return crowdfundingDao.queryAllCrowdDetailIds(cfdId);
     }
+
+    /**
+     * 获取用户所有的众筹
+     *
+     * @param userId
+     * @return
+     */
+    public List<Map<String, Object>> queryPersonCrowds(String userId) {
+        return crowdfundingDao.queryPersonCrowds(userId);
+    }
 }

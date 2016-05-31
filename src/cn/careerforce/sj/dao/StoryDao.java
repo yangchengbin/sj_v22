@@ -39,4 +39,9 @@ public class StoryDao {
         String sql = "SELECT s.id, s.title, s.type, s.cover_img, p.career, p.pname, p.head_img FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.valid = 1 ORDER BY s.seq, s.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
+
+    public List<Map<String, Object>> queryPersonStories(String userId) {
+        String sql = "SELECT s.id, s.cover_img, s.title, s.view_count FROM story s, personage p WHERE s.valid = 1 AND s.personage_id = p.id AND p.user_id = " + userId;
+        return jdbcTemplate.queryForList(sql);
+    }
 }

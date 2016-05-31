@@ -54,6 +54,43 @@ public class CommonService {
     }
 
     /**
+     * 获取关注数量
+     *
+     * @param moduleName 模块名称
+     * @param objectId   对象ID
+     * @return
+     */
+    public JSONObject queryAttentionCount(String moduleName, String objectId) {
+        String url = Configuration.getValue("feeds_service_url") + "/api/follow/query/count?clientid=123583160&module_name=" + moduleName + "&object_id=" + objectId;
+        String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+        comment = comment.replaceAll(":null,", ":\"\",");
+        if (comment != null && !comment.equals("")) {
+            JSONObject commentJson = JSONObject.fromObject(comment);
+            return commentJson;
+        }
+        return null;
+    }
+
+    /**
+     * 获取是否已关注
+     *
+     * @param moduleName 模块名称
+     * @param objectId   对象ID
+     * @param operateUid 操作用户ID
+     * @return
+     */
+    public JSONObject queryHasAttention(String moduleName, String objectId, String operateUid) {
+        String url = Configuration.getValue("feeds_service_url") + "/api/follow/check?clientid=123583160&module_name="+moduleName+"&object_id=" + objectId + "&userid=" + operateUid;
+        String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
+        comment = comment.replaceAll(":null,", ":\"\",");
+        if (comment != null && !comment.equals("")) {
+            JSONObject commentJson = JSONObject.fromObject(comment);
+            return commentJson;
+        }
+        return null;
+    }
+
+    /**
      * 发现页查询人物
      *
      * @return

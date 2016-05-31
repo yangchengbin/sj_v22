@@ -2,9 +2,7 @@ package cn.careerforce.sj.web;
 
 import cn.careerforce.config.Configuration;
 import cn.careerforce.config.Global;
-import cn.careerforce.sj.service.GoodsService;
-import cn.careerforce.sj.service.PersonageService;
-import cn.careerforce.sj.service.StoryService;
+import cn.careerforce.sj.service.*;
 import cn.careerforce.sj.utils.Constant;
 import cn.careerforce.util.http.HttpRequest;
 import net.sf.json.JSONObject;
@@ -39,6 +37,12 @@ public class PersonageController {
 
     @Resource
     private GoodsService goodsService;
+
+    @Resource
+    private CrowdfundingService crowdfundingService;
+
+    @Resource
+    private CommonService commonService;
 
     private static final Logger logger = Logger.getLogger(UserController.class);
 
@@ -323,6 +327,70 @@ public class PersonageController {
             obj.put("persons", persons);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
+
+    //--------------------------------2.3版本------------------------
+
+    /**
+     * 根据userID获取人物详细信息
+     *
+     * @param userId     人物ID
+     * @param operateUid 当前登录户
+     * @return
+     */
+    @RequestMapping(value = "queryPersonByIdMain")
+    @ResponseBody
+    public Map<String, Object> queryPersonByIdMain(String userId, String operateUid) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        String hasAttention;//是否关注
+        try {
+
+            List<Map<String, Object>> persons = personageService.queryPersonMain(userId);
+            if (persons != null && persons.size() > 0) {
+                Map<String, Object> person = persons.get(0);
+                List<Map<String, Object>> stories = storyService.queryPersonStories(userId);
+                List<Map<String, Object>> goods = goodsService.queryPersonProducts(userId);
+                List<Map<String, Object>> crowds = crowdfundingService.queryPersonCrowds(userId);
+
+                //获取关注数
+                JSONObject attentionJson = commonService.queryAttentionCount("figure", userId);
+                if (attentionJson != null) {
+                    person.put("attention_count", attentionJson.get("message"));
+                } else {
+                    person.put("attention_count", "0");
+                }
+
+                //获取是否已关注
+                if (operateUid == null || "".equals(operateUid)) {
+                    person.put("hasAttention", 0);
+                } else {
+                    JSONObject jsonObject = commonService.queryHasAttention("figure", userId, operateUid);
+                    if (jsonObject != null) {
+                        hasAttention = jsonObject.get("message").toString();
+                        if ("true".equals(hasAttention)) {
+                            person.put("hasAttention", 1);
+                        } else {
+                            person.put("hasAttention", 0);
+                        }
+                    } else {
+                        person.put("hasAttention", 0);
+                    }
+                }
+                obj.put("person", person);
+                obj.put("stories", stories);
+                obj.put("goods", goods);
+                obj.put("crowds", crowds);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
         } catch (Exception e) {
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
             obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);

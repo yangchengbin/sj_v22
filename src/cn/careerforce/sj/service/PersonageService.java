@@ -95,4 +95,8 @@ public class PersonageService {
     public void addKeyHistory(String key) {
         personageDao.addKeyHistory(key);
     }
+
+    public List<Map<String, Object>> queryPersonMain(String userId) {
+        return personageDao.queryPersonMain(userId);
+    }
 }
