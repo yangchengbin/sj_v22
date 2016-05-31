@@ -5,7 +5,6 @@ import cn.careerforce.config.Global;
 import cn.careerforce.sj.service.GoodsService;
 import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.utils.Constant;
-import cn.careerforce.sj.utils.DateUtil;
 import cn.careerforce.util.http.HttpRequest;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
@@ -65,15 +64,14 @@ public class GoodsController {
                 obj.put("data", good);
                 obj.put("imgs", imgs);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
-                obj.put(Constant.REQRESULT, Constant.REQFAILED);
-                obj.put(Constant.MESSAGE, "没有查到数据，可能已下架，请确认！");
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
             }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -91,11 +89,10 @@ public class GoodsController {
         try {
             goodsService.changeShareCnt(goodsId);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -114,11 +111,10 @@ public class GoodsController {
         try {
             goodsService.changeCommentCnt(goodsId, type);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -137,13 +133,17 @@ public class GoodsController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> goods = goodsService.queryGoodses(userId, pageNumber, pageSize, orderType);
-            obj.put("data", goods);
-            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            if (goods != null && goods.size() > 0) {
+                obj.put("data", goods);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -163,15 +163,14 @@ public class GoodsController {
             int affectNum = goodsService.changeGoodsCnt(goodsId, type, count);
             if (affectNum == 1) {
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
                 obj.put(Constant.REQRESULT, Constant.REQFAILED);
                 obj.put(Constant.MESSAGE, "剩余数量不足！");
             }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -188,13 +187,17 @@ public class GoodsController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> goods = goodsService.queryGoodsByStoryId(storyId);
-            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
-            obj.put("goods", goods);
+            if (goods != null && goods.size() > 0) {
+                obj.put("goods", goods);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }

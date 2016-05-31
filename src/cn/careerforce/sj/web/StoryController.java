@@ -7,7 +7,6 @@ import cn.careerforce.sj.service.GoodsService;
 import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.service.StoryService;
 import cn.careerforce.sj.utils.Constant;
-import cn.careerforce.sj.utils.DateUtil;
 import cn.careerforce.util.http.HttpRequest;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
@@ -57,13 +56,17 @@ public class StoryController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> stories = storyService.queryStories(recordIndex, pageSize);
-            obj.put("stories", stories);
-            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            if (stories != null && stories.size() > 0) {
+                obj.put("stories", stories);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -80,13 +83,17 @@ public class StoryController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> stories = storyService.queryStoriesByPid(pid);
-            obj.put("stories", stories);
-            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            if (stories != null && stories.size() > 0) {
+                obj.put("stories", stories);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -154,11 +161,10 @@ public class StoryController {
 
             obj.put("story", story);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -234,12 +240,40 @@ public class StoryController {
 
             obj.put("story", story);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
+
+    //------------------------------2.3版本---------------------------
+
+    /**
+     * 获取首页故事列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   加载条数
+     * @return
+     */
+    @RequestMapping(value = "queryStoriesMain")
+    @ResponseBody
+    public Map<String, Object> queryStoriesMain(@RequestParam(defaultValue = "1") int pageNumber, @RequestParam(defaultValue = "5") int pageSize) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> stories = storyService.queryStoriesMain(pageNumber, pageSize);
+            if (stories != null && stories.size() > 0) {
+                obj.put("stories", stories);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }

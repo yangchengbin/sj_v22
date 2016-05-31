@@ -3,7 +3,6 @@ package cn.careerforce.sj.web;
 import cn.careerforce.sj.service.CourseService;
 import cn.careerforce.sj.service.PersonageService;
 import cn.careerforce.sj.utils.Constant;
-import cn.careerforce.sj.utils.DateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,15 +50,14 @@ public class CourseController {
                 obj.put("data", courses.get(0));
                 obj.put("imgs", imgs);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
-                obj.put(Constant.REQRESULT, Constant.REQFAILED);
-                obj.put(Constant.MESSAGE, "没有查到数据，可能已下架，请确认！");
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.NO_DATA);
             }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -77,11 +75,10 @@ public class CourseController {
         try {
             courseService.changeShareCnt(courseId);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -100,11 +97,10 @@ public class CourseController {
         try {
             courseService.changeCommentCnt(courseId, type);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -121,13 +117,17 @@ public class CourseController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> courses = courseService.queryCourses(userId, pageNumber, pageSize, orderType);
-            obj.put("data", courses);
-            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            if (courses != null && courses.size() > 0) {
+                obj.put("data", courses);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -148,16 +148,14 @@ public class CourseController {
             int affectNum = courseService.changeEnrollmentCnt(courseId, type, count);
             if (affectNum == 1) {
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
                 obj.put(Constant.REQRESULT, Constant.REQFAILED);
                 obj.put(Constant.MESSAGE, "剩余数量不足！");
             }
-
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }

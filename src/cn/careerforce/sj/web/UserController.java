@@ -5,7 +5,6 @@ import cn.careerforce.config.Global;
 import cn.careerforce.sj.model.User;
 import cn.careerforce.sj.service.UserService;
 import cn.careerforce.sj.utils.Constant;
-import cn.careerforce.sj.utils.DateUtil;
 import cn.careerforce.util.http.HttpRequest;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
@@ -95,15 +94,14 @@ public class UserController {
             if (users != null && users.size() > 0) {
                 obj.put("data", users.get(0));
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
                 obj.put(Constant.REQRESULT, Constant.NOUSER);
-                obj.put(Constant.MESSAGE, "用户不存在");
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_USER);
             }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -123,15 +121,14 @@ public class UserController {
             if (user.size() > 0) {
                 obj.put("data", user.get(0));
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
                 obj.put(Constant.REQRESULT, Constant.NOUSER);
-                obj.put(Constant.MESSAGE, "用户不存在");
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_USER);
             }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -152,15 +149,14 @@ public class UserController {
             if (user.size() > 0) {
                 obj.put("data", user.get(0));
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-                obj.put(Constant.MESSAGE, "操作成功");
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
                 obj.put(Constant.REQRESULT, Constant.NOUSER);
-                obj.put(Constant.MESSAGE, "用户不存在");
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_USER);
             }
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -187,11 +183,10 @@ public class UserController {
             List<Map<String, Object>> users = userService.queryUserDetailInfoById(userId);
             obj.put("data", users.get(0));
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -219,11 +214,10 @@ public class UserController {
             List<Map<String, Object>> users = userService.queryUserDetailInfoById(userId);
             obj.put("data", users.get(0));
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -245,11 +239,10 @@ public class UserController {
             HttpRequest.getContentByUrl(url, Global.default_encoding);
 
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -310,11 +303,10 @@ public class UserController {
         try {
             userService.addImproveInfo(content, contactInfo);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }

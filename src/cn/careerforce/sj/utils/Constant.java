@@ -18,4 +18,5 @@ public class Constant {
     public static final String MSG_REQ_SUCCESS = "请求成功";
     public static final String MSG_REQ_FAILED = "请求失败";
     public static final String MSG_NO_DATA = "没有数据";
+    public static final String MSG_NO_USER = "用户不存在";
 }

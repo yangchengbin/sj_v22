@@ -2,7 +2,6 @@ package cn.careerforce.sj.web;
 
 import cn.careerforce.sj.service.CrowdfundingService;
 import cn.careerforce.sj.utils.Constant;
-import cn.careerforce.sj.utils.DateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,11 +47,10 @@ public class CrowdfundingController {
                 obj.put("cfDetails", cfDetails);
             }
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -71,11 +69,10 @@ public class CrowdfundingController {
         try {
             crowdfundingService.changeSupportNumber(cfdId, type);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -100,11 +97,10 @@ public class CrowdfundingController {
                 obj.put("cfdIds", ids);
             }
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }
@@ -123,11 +119,10 @@ public class CrowdfundingController {
             Map<String, Object> cfd = crowdfundingService.queryCFDetailById(cfdId);
             obj.put("data", cfd);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
-            obj.put(Constant.MESSAGE, "操作成功");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
-            logger.error(DateUtil.getCurTime() + "-->" + e.getMessage());
             obj.put(Constant.REQRESULT, Constant.REQFAILED);
-            obj.put(Constant.MESSAGE, "操作失败");
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
     }

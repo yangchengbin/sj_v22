@@ -43,4 +43,8 @@ public class StoryService {
         }
         return stories;
     }
+
+    public List<Map<String, Object>> queryStoriesMain(int pageNumber, int pageSize) {
+        return storyDao.queryStoriesMain(pageNumber, pageSize);
+    }
 }
