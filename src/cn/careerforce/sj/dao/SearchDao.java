@@ -25,7 +25,7 @@ public class SearchDao {
     }
 
     public List<Map<String, Object>> queryMasters(int type, String key, int pageNumber, int pageSize) {
-        String sql = "SELECT " + type + " AS type, p.head_img, p.user_id, p.pname, p.career, EXISTS ( SELECT id FROM crowdfunding WHERE personage_id = p.id AND end_time > UNIX_TIMESTAMP() AND begin_time < UNIX_TIMESTAMP()) AS is_crowd FROM personage p WHERE p.valid = 1 AND p.pname LIKE ? LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT " + type + " AS type, p.head_img, p.user_id, p.pname, p.career, EXISTS ( SELECT id FROM crowdfunding WHERE personage_id = p.id AND end_time > UNIX_TIMESTAMP() AND begin_time < UNIX_TIMESTAMP()) AS is_crowd, COUNT(g.id) + COUNT(s.id) AS rq FROM personage p LEFT JOIN goods g ON g.valid = 1 AND g.personage_id = p.id LEFT JOIN story s ON s.valid = 1 AND s.personage_id = p.id WHERE p.valid = 1 AND p.pname LIKE ? GROUP BY p.id ORDER BY rq DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql, "%" + key + "%");
     }
 
