@@ -55,4 +55,8 @@ public class StoryService {
     public List<Map<String, Object>> queryStoryMain(String id) {
         return storyDao.queryStoryMain(id);
     }
+
+    public void changeViewCount(String id) {
+        storyDao.changeViewCount(id);
+    }
 }

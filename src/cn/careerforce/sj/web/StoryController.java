@@ -335,6 +335,8 @@ public class StoryController {
                         obj.put("product", null);
                     }
                 }
+                //更新阅读量
+                storyService.changeViewCount(id);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {

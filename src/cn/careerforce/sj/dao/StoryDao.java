@@ -49,4 +49,9 @@ public class StoryDao {
         String sql = "SELECT s.id, s.type, s.title, s.cover_img, s.video_address, s.video_cover_addr, s.description, p.user_id, p.career, p.pname, p.head_img FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.id = " + id + " AND s.valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
+
+    public void changeViewCount(String id) {
+        String sql = "UPDATE story SET view_count = view_count + 1 WHERE id = " + id;
+        jdbcTemplate.update(sql);
+    }
 }
