@@ -26,12 +26,12 @@ public class MainDao {
     }
 
     public List<Map<String, Object>> queryProducts(int pageNumber, int pageSize) {
-        String sql = "SELECT g.id, g.cover_img AS goods_cover, g.title, g.price FROM goods g WHERE g.valid = 1 ORDER BY g.amount DESC, g.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 ORDER BY g.amount DESC, g.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 
     public List<Map<String, Object>> queryCrowds(int pageNumber, int pageSize) {
-        String sql = "SELECT c.id, c.cover_img AS crowd_cover, p.pname AS master_name, p.career AS master_career, p.head_img, c.title AS crowd_title, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id WHERE c.valid = 1 ORDER BY flag, c.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT c.id, c.cover_img, p.pname AS master_name, p.career AS master_career, p.head_img, s.title AS crowd_title, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id LEFT JOIN story s ON s.id = c.story_id  WHERE c.valid = 1 ORDER BY flag, c.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 }
