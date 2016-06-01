@@ -21,7 +21,7 @@ public class RecordDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> queryRecords(int pageNumber, int pageSize) {
-        String sql = "SELECT r.id, r.type, r.title, r.record_cover, r.video_address, r.details, r.view_count FROM record r WHERE r.valid = 1 ORDER BY r.recommended_order, r.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT r.id, r.type, r.title, r.record_cover, r.video_address, r.details, r.view_count FROM record r WHERE r.valid = 1 ORDER BY r.seq, r.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 
