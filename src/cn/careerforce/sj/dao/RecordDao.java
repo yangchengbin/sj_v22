@@ -29,4 +29,9 @@ public class RecordDao {
         String sql = "SELECT r.id, r.type, r.title, r.record_cover, r.video_address, r.details, r.view_count FROM record r WHERE r.valid = 1 AND id = " + id;
         return jdbcTemplate.queryForList(sql);
     }
+
+    public void changeShareCount(String id) {
+        String sql = "UPDATE record SET share_count = share_count + 1 WHERE id = " + id;
+        jdbcTemplate.update(sql);
+    }
 }

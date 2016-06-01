@@ -65,6 +65,7 @@ public class SearchController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> records = searchService.queryRecords(key, type, pageNumber, pageSize);
+            searchService.addKeyHistory(key, type);
             if (records != null && records.size() > 0) {
                 obj.put("records", records);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);

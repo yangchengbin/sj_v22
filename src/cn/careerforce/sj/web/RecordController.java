@@ -63,6 +63,30 @@ public class RecordController {
     }
 
     /**
+     * 添加视频风向记录
+     *
+     * @param id      视频记录ID
+     * @param userId  分享用户Id
+     * @param partner 分享的第三方 可选：qq, weixin, qzone, weibo 等
+     * @return
+     */
+    @RequestMapping(value = "addShare")
+    @ResponseBody
+    public Map<String, Object> addShare(String id, String userId, String partner) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            recordService.addShare(id, userId, partner);
+            recordService.changeShareCount(id);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
+
+    /**
      * 查询视频记录
      *
      * @param id       记录ID

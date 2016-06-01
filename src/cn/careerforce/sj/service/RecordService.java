@@ -19,11 +19,22 @@ public class RecordService {
     @Resource
     private RecordDao recordDao;
 
+    @Resource
+    private CommonService commonService;
+
     public List<Map<String, Object>> queryRecords(int pageNumber, int pageSize) {
         return recordDao.queryRecords(pageNumber, pageSize);
     }
 
     public List<Map<String, Object>> queryRecordById(String id) {
         return recordDao.queryRecordById(id);
+    }
+
+    public void addShare(String id, String userId, String partner) {
+        commonService.addShareRecord("record", id, userId, partner);
+    }
+
+    public void changeShareCount(String id) {
+        recordDao.changeShareCount(id);
     }
 }

@@ -80,7 +80,7 @@ public class CommonService {
      * @return
      */
     public JSONObject queryHasAttention(String moduleName, String objectId, String operateUid) {
-        String url = Configuration.getValue("feeds_service_url") + "/api/follow/check?clientid=123583160&module_name="+moduleName+"&object_id=" + objectId + "&userid=" + operateUid;
+        String url = Configuration.getValue("feeds_service_url") + "/api/follow/check?clientid=123583160&module_name=" + moduleName + "&object_id=" + objectId + "&userid=" + operateUid;
         String comment = HttpRequest.getContentByUrl(url, Global.default_encoding);
         comment = comment.replaceAll(":null,", ":\"\",");
         if (comment != null && !comment.equals("")) {
@@ -88,6 +88,20 @@ public class CommonService {
             return commentJson;
         }
         return null;
+    }
+
+    /**
+     * 添加分享记录
+     *
+     * @param moduleName 模块名称
+     * @param objectId   对象ID
+     * @param userId     分享者ID
+     * @param partner    分享的第三方 可选：qq, weixin, qzone, weibo 等
+     * @return
+     */
+    public void addShareRecord(String moduleName, String objectId, String userId, String partner) {
+        String url = Configuration.getValue("feeds_service_url") + "/api/share/add?clientid=123583160&module_name=" + moduleName + "&object_id=" + objectId + "&userid=" + userId + "&partner=" + partner;
+        HttpRequest.getContentByUrl(url, Global.default_encoding);
     }
 
     /**

@@ -41,4 +41,8 @@ public class SearchService {
                 return null;
         }
     }
+
+    public void addKeyHistory(String key, int type) {
+        searchDao.addKeyHistory(key, type);
+    }
 }
