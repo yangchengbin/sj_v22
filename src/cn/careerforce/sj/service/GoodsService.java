@@ -31,7 +31,7 @@ public class GoodsService {
         return goodsDao.queryGoodses(userId, pageNumber, pageSize, orderType);
     }
 
-    public int changeGoodsCnt(String goodsId, String type, int count) {
+    public int[] changeGoodsCnt(String goodsId, String type, int count) {
         return goodsDao.changeGoodsCnt(goodsId, type, count);
     }
 

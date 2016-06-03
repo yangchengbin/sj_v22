@@ -160,8 +160,8 @@ public class GoodsController {
     public Map<String, Object> changeGoodsCnt(String goodsId, @RequestParam(defaultValue = "add") String type, @RequestParam(defaultValue = "1") int count) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
-            int affectNum = goodsService.changeGoodsCnt(goodsId, type, count);
-            if (affectNum == 1) {
+            int[] affectNum = goodsService.changeGoodsCnt(goodsId, type, count);
+            if (affectNum[0] == 1) {
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {

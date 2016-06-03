@@ -69,14 +69,22 @@ public class GoodsDao {
         return jdbcTemplate.queryForList(sql);
     }
 
-    public int changeGoodsCnt(String goodsId, String type, int count) {
-        String sql;
+    public int[] changeGoodsCnt(String goodsId, String type, int count) {
+        String[] sql = new String[2];
         if ("add".equals(type)) {
-            sql = "UPDATE goods SET amount = amount + " + count + " WHERE id = " + goodsId;
+            sql[0] = "UPDATE goods SET amount = amount + " + count + " WHERE id = " + goodsId;
+            sql[1] = "UPDATE goods SET sale_count = sale_count - " + count + " WHERE id = " + goodsId;
+            return jdbcTemplate.batchUpdate(sql);
         } else {
-            sql = "UPDATE goods SET amount = amount - " + count + " WHERE id = " + goodsId + " AND amount >= " + count;
+            sql[0] = "UPDATE goods SET amount = amount - " + count + " WHERE id = " + goodsId + " AND amount >= " + count;
+            int affectNum = jdbcTemplate.update(sql[0]);
+            if (affectNum > 0) {
+                sql[1] = "UPDATE goods SET sale_count = sale_count + " + count + " WHERE id = " + goodsId;
+                jdbcTemplate.update(sql[1]);
+                return new int[]{1, 0};
+            }
+            return new int[]{0, 0};
         }
-        return jdbcTemplate.update(sql);
     }
 
     public void changeCommentCnt(String goodsId, String type) {
