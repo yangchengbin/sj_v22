@@ -20,7 +20,7 @@ public class EditionDao {
     private JdbcTemplate jdbcTemplate;
 
     public Map<String, Object> queryCurEdition(int type) {
-        String sql = "SELECT id, url, version, isforce, description FROM edition where type = " + type + " ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT id, url, version, isforce, is_hint, description FROM edition where type = " + type + " ORDER BY id DESC LIMIT 1";
         return jdbcTemplate.queryForMap(sql);
     }
 }
