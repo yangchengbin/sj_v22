@@ -35,7 +35,7 @@ public class SearchDao {
     }
 
     public List<Map<String, Object>> queryCrowdfundings(int type, String key, int pageNumber, int pageSize) {
-        String sql = "SELECT  " + type + " AS type, c.id, s.id AS story_id, c.cover_img, p.pname AS master_name, p.career AS master_career, s.title, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id, story s  WHERE c.valid = 1  AND c.story_id = s.id AND s.title LIKE ? LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT  " + type + " AS type, c.id, s.id AS story_id, c.cover_img, p.pname AS master_name, p.career AS master_career,p.head_img, s.title, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id, story s  WHERE c.valid = 1  AND c.story_id = s.id AND s.title LIKE ? LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql, "%" + key + "%");
     }
 
