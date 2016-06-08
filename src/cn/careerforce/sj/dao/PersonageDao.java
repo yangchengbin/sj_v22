@@ -141,7 +141,7 @@ public class PersonageDao {
     }
 
     public List<Map<String, Object>> queryPersonMain(String userId) {
-        String sql = "SELECT p.user_id, p.cover_img, p.pname, p.career FROM personage p WHERE p.valid = 1 AND p.user_id = " + userId;
+        String sql = "SELECT p.user_id, p.cover_img, p.pname, p.career, p.head_img FROM personage p WHERE p.valid = 1 AND p.user_id = " + userId;
         return jdbcTemplate.queryForList(sql);
     }
 
