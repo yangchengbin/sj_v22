@@ -92,7 +92,7 @@ public class CommonController {
         try {
             List<Map<String, Object>> masters = commonService.queryMasters();   //人物
             List<Map<String, Object>> crowds = commonService.queryCrowds();     //众筹
-            List<Map<String, Object>> products = commonService.queryProducts(0, 6); //商品
+            List<Map<String, Object>> products = commonService.queryProducts(0, 4); //商品
             obj.put("masters", masters);
             obj.put("crowds", crowds);
             obj.put("products", products);
