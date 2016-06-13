@@ -70,7 +70,7 @@ public class CrowdfundingDao {
     }
 
     public List<Map<String, Object>> queryPersonCrowds(String userId) {
-        String sql = "SELECT c.id, c.cover_img, c.title, c.target_price, c.raised_price, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag FROM crowdfunding c, personage p WHERE c.personage_id = p.id AND p.user_id = " + userId + " AND c.valid = 1";
+        String sql = "SELECT c.id, c.cover_img, s.title, c.target_price, c.raised_price, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag FROM crowdfunding c, story s, personage p WHERE s.id = c.story_id AND c.personage_id = p.id AND p.user_id = " + userId + " AND c.valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
 
