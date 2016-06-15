@@ -354,7 +354,7 @@ public class PersonageController {
             if (persons != null && persons.size() > 0) {
                 Map<String, Object> person = persons.get(0);
                 List<Map<String, Object>> stories = storyService.queryPersonStories(userId);
-                List<Map<String, Object>> goods = goodsService.queryPersonProducts(userId);
+                List<Map<String, Object>> goods = goodsService.queryPersonProducts(userId, 1, 5);
                 List<Map<String, Object>> crowds = crowdfundingService.queryPersonCrowds(userId);
 
                 //获取关注数

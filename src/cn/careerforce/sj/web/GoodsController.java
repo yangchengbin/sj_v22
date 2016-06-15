@@ -201,4 +201,33 @@ public class GoodsController {
         }
         return obj;
     }
+
+    /**
+     * 个人主页下拉加载商品
+     *
+     * @param userId     人物userId
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "queryPersonProducts")
+    @ResponseBody
+    public Map<String, Object> queryPersonProducts(String userId, @RequestParam(defaultValue = "1") int pageNumber, @RequestParam(defaultValue = "5") int pageSize) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> goods = goodsService.queryPersonProducts(userId, pageNumber, pageSize);
+            if (goods != null && goods.size() > 0) {
+                obj.put("goods", goods);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }

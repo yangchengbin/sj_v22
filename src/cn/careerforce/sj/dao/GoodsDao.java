@@ -107,8 +107,8 @@ public class GoodsDao {
         return jdbcTemplate.queryForList(sql);
     }
 
-    public List<Map<String, Object>> queryPersonProducts(String userId) {
-        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g, personage p WHERE g.personage_id = p.id AND p.user_id = " + userId + " AND g.valid = 1 ORDER BY g.create_time DESC";
+    public List<Map<String, Object>> queryPersonProducts(String userId, int pageNumber, int pageSize) {
+        String sql = "SELECT g.id, g.cover_img, g.title, g.price FROM goods g, personage p WHERE g.personage_id = p.id AND p.user_id = " + userId + " AND g.valid = 1 ORDER BY g.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 
