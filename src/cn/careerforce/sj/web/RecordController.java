@@ -101,6 +101,9 @@ public class RecordController {
             List<Map<String, Object>> records = recordService.queryRecordById(id);
             if (records.size() > 0) {
                 Map<String, Object> record = records.get(0);
+                String details = record.get("details").toString();
+                StringBuffer sb = commonService.toHtml(details);
+                record.put("details", sb.toString());
                 recordService.changeViewCount(id);
                 JSONObject comments = commonService.queryComments("record", id, deviceNo, 0, 1, 2);//获取评论信息
                 if (comments == null) {

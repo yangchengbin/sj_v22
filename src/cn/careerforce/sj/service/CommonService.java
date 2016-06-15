@@ -130,4 +130,25 @@ public class CommonService {
     public List<Map<String, Object>> queryProducts(int recordIndex, int pageSize) {
         return commonDao.queryProducts(recordIndex, pageSize);
     }
+
+    /**
+     * 转换成html
+     *
+     * @return
+     */
+    public StringBuffer toHtml(String desc) {
+        StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>body{padding:0;margin:0;}p{margin-bottom:10px;color:#585858;text-align:left;font-size:14px;line-height:24px;text-indent:2em;padding:6px 16px;}img{width:100%;margin-top:6px;}</style></head><body id='body'>");
+        if (desc != null && !"".equals(desc.trim())) {
+            String[] des = desc.split("\\[\\$\\*\\$\\]");
+            for (int i = 0; i < des.length; i++) {
+                if (des[i].startsWith("http")) {
+                    sb.append("<div><img src='").append(des[i]).append("'/></div>");
+                } else {
+                    sb.append("<p>").append(des[i]).append("</p>");
+                }
+            }
+        }
+        sb.append("</body></html>");
+        return sb;
+    }
 }

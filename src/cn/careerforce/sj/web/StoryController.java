@@ -113,21 +113,9 @@ public class StoryController {
         try {
             List<Map<String, Object>> stories = storyService.queryStoryById(id);
             Map<String, Object> story = stories.get(0);
-
             String description = story.get("description").toString();
-            if (!"".equals(description)) {
-                String[] des = description.split("\\[\\$\\*\\$\\]");
-                StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>body{padding:0;margin:0;}p{margin-bottom:10px;color:#585858;text-align:left;font-size:14px;line-height:24px;text-indent:2em;padding:6px 16px;}img{width:100%;margin-top:6px;}</style></head><body id='body'>");
-                for (int i = 0; i < des.length; i++) {
-                    if (des[i].startsWith("http")) {
-                        sb.append("<div><img src='").append(des[i]).append("'/></div>");
-                    } else {
-                        sb.append("<p>").append(des[i]).append("</p>");
-                    }
-                }
-                sb.append("</body></html>");
-                story.put("description", sb.toString());
-            }
+            StringBuffer sb = commonService.toHtml(description);
+            story.put("description", sb.toString());
             String personageId = story.get("personage_id").toString();
             String puId = personageService.queryUserId(personageId);  //大师的userId
 
@@ -295,19 +283,8 @@ public class StoryController {
                 Map<String, Object> story = stories.get(0);
                 //-------------装配详情字段-------------
                 String description = story.get("description").toString();
-                if (!"".equals(description)) {
-                    String[] des = description.split("\\[\\$\\*\\$\\]");
-                    StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>body{padding:0;margin:0;}p{margin-bottom:10px;color:#585858;text-align:left;font-size:14px;line-height:24px;text-indent:2em;padding:6px 16px;}img{width:100%;margin-top:6px;}</style></head><body id='body'>");
-                    for (int i = 0; i < des.length; i++) {
-                        if (des[i].startsWith("http")) {
-                            sb.append("<div><img src='").append(des[i]).append("'/></div>");
-                        } else {
-                            sb.append("<p>").append(des[i]).append("</p>");
-                        }
-                    }
-                    sb.append("</body></html>");
-                    story.put("description", sb.toString());
-                }
+                StringBuffer sb = commonService.toHtml(description);
+                story.put("description", sb.toString());
                 //---------------获取评论信息----------------------
                 JSONObject commentJson = commonService.queryComments("story", id, deviceNo, 0, 1, 2);
                 if (commentJson != null) {
