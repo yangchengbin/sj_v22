@@ -37,4 +37,8 @@ public class RecordService {
     public void changeShareCount(String id) {
         recordDao.changeShareCount(id);
     }
+
+    public void changeViewCount(String id) {
+        recordDao.changeViewCount(id);
+    }
 }

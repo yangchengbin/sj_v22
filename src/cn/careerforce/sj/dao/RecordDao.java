@@ -34,4 +34,9 @@ public class RecordDao {
         String sql = "UPDATE record SET share_count = share_count + 1 WHERE id = " + id;
         jdbcTemplate.update(sql);
     }
+
+    public void changeViewCount(String id) {
+        String sql = "UPDATE record SET view_count = view_count + 1 WHERE id = " + id;
+        jdbcTemplate.update(sql);
+    }
 }
