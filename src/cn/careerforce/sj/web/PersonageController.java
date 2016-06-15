@@ -411,7 +411,23 @@ public class PersonageController {
         try {
             List<Map<String, Object>> persons = personageService.queryPersonMoreInfo(userId);
             if (persons != null && persons.size() > 0) {
-                obj.put("person", persons.get(0));
+                Map<String, Object> person = persons.get(0);
+                String description = person.get("description").toString();
+                if (!"".equals(description)) {
+                    String[] des = description.split("\\[\\$\\*\\$\\]");
+                    StringBuffer sb = new StringBuffer("<html><head><style type='text/css'>body{padding:0;margin:0;}p{margin-bottom:10px;color:#585858;text-align:left;font-size:14px;line-height:24px;text-indent:2em;padding:6px 16px;}img{width:100%;margin-top:6px;}</style></head><body id='body'>");
+                    for (int i = 0; i < des.length; i++) {
+                        if (des[i].startsWith("http")) {
+                            sb.append("<div><img src='").append(des[i]).append("'/></div>");
+                        } else {
+                            sb.append("<p>").append(des[i]).append("</p>");
+                        }
+                    }
+                    sb.append("</body></html>");
+                    person.put("description", sb.toString());
+                }
+
+                obj.put("person", person);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {

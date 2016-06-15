@@ -54,7 +54,7 @@ public class CommonDao {
     }
 
     public List<Map<String, Object>> queryCrowds() {
-        String sql = "SELECT c.id, s.title, s.id AS story_id, c.cover_img, c.target_price, c.raised_price, c.support_number, p.head_img, p.pname AS master_name, p.career AS master_career, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag  FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id LEFT JOIN story s ON s.id = c.story_id WHERE c.valid = 1 ORDER BY c.create_time DESC LIMIT 3";
+        String sql = "SELECT c.id, s.title, s.id AS story_id, c.cover_img, c.target_price, c.raised_price, c.support_number, p.head_img, p.pname AS master_name, p.career AS master_career, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days, IF ( UNIX_TIMESTAMP() < c.begin_time, 1, IF ( UNIX_TIMESTAMP() > c.end_time, 3, 2 )) AS flag  FROM crowdfunding c LEFT JOIN personage p ON p.id = c.personage_id LEFT JOIN story s ON s.id = c.story_id WHERE c.valid = 1 ORDER BY flag, c.create_time DESC LIMIT 3";
         return jdbcTemplate.queryForList(sql);
     }
 

@@ -146,7 +146,7 @@ public class PersonageDao {
     }
 
     public List<Map<String, Object>> queryPersonMoreInfo(String userId) {
-        String sql = "SELECT p.id, p.user_id, p.pname, p.desc_video, p.video_cover_img, p.description FROM personage p WHERE p.user_id = '" + userId + "'";
+        String sql = "SELECT p.id, p.user_id, p.pname, p.career, p.desc_video, p.video_cover_img, p.description FROM personage p WHERE p.user_id = '" + userId + "'";
         return jdbcTemplate.queryForList(sql);
     }
 }
