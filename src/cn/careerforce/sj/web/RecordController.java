@@ -126,4 +126,42 @@ public class RecordController {
         }
         return obj;
     }
+
+    /**
+     * 查询视频记录
+     *
+     * @param id       记录ID
+     * @param deviceNo 设备号
+     * @return
+     */
+    @RequestMapping(value = "queryRecordByIdH5")
+    @ResponseBody
+    public Map<String, Object> queryRecordByIdH5(String id, @RequestParam(defaultValue = "0") String deviceNo) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> records = recordService.queryRecordById(id);
+            if (records.size() > 0) {
+                Map<String, Object> record = records.get(0);
+                recordService.changeViewCount(id);
+                JSONObject comments = commonService.queryComments("record", id, deviceNo, 0, 1, 2);//获取评论信息
+                if (comments == null) {
+                    record.put("commentCount", 0);
+                    obj.put("comments", "");
+                } else {
+                    record.put("commentCount", comments.get("totalRow"));
+                    obj.put("comments", comments.get("message"));
+                }
+                obj.put("record", record);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }
