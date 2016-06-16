@@ -41,7 +41,7 @@ public class StoryDao {
     }
 
     public List<Map<String, Object>> queryPersonStories(String userId) {
-        String sql = "SELECT s.id, s.cover_img, s.title, s.view_count FROM story s, personage p WHERE s.valid = 1 AND s.personage_id = p.id AND p.user_id = " + userId;
+        String sql = "SELECT s.id, s.cover_img, s.title, s.view_count FROM story s, personage p WHERE s.valid = 1 AND s.personage_id = p.id AND p.user_id = " + userId + " ORDER BY s.create_time DESC ";
         return jdbcTemplate.queryForList(sql);
     }
 
