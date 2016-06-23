@@ -19,4 +19,7 @@ public class Constant {
     public static final String MSG_REQ_FAILED = "请求失败";
     public static final String MSG_NO_DATA = "没有数据";
     public static final String MSG_NO_USER = "用户不存在";
+
+    public static final int NOT_APPLY = 33; //未申请匠人
+    public static final String MSG_NOT_APPLY = "未申请匠人";
 }

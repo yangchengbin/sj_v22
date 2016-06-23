@@ -11,3 +11,6 @@ goods表添加 sale_count 销售数量
 
 
 2.4版本数据库变更
+新增 master_apply  大师申请表
+新增大师申请相关图片表rel_pictures
+personage表新增source字段
