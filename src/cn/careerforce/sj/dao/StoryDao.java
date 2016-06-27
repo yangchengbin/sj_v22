@@ -36,7 +36,7 @@ public class StoryDao {
     }
 
     public List<Map<String, Object>> queryStoriesMain(int pageNumber, int pageSize) {
-        String sql = "SELECT s.id, s.title, s.type, s.cover_img, p.career, p.pname, p.head_img FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.valid = 1 ORDER BY s.seq, s.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT s.id, s.title, s.type, s.cover_img, p.career, p.pname, p.head_img FROM story s LEFT JOIN personage p ON p.id = s.personage_id WHERE s.valid = 1 AND s.seq != 9999 ORDER BY s.seq, s.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 
