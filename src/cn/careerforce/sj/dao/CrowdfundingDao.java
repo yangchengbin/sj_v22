@@ -78,4 +78,9 @@ public class CrowdfundingDao {
         String sql = "SELECT c.id, c.cover_img, c.target_price, c.raised_price, c.support_number, ceil(( c.end_time - UNIX_TIMESTAMP(now())) / 86400 ) AS remain_days FROM crowdfunding c WHERE c.story_id = " + id + " AND c.valid = 1";
         return jdbcTemplate.queryForList(sql);
     }
+
+    public List<Map<String, Object>> queryCFStatusByCFDId(String cfdId) {
+        String sql = "SELECT IF ( c.raised_price >= c.target_price, 1, IF ( c.end_time > UNIX_TIMESTAMP(), 2, 3 )) AS flag, c.is_gy, cd.type FROM crowdfunding c, crowdfunding_detail cd WHERE c.id = cd.crowdfunding_id AND cd.id = " + cfdId;
+        return jdbcTemplate.queryForList(sql);
+    }
 }

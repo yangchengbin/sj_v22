@@ -126,4 +126,31 @@ public class CrowdfundingController {
         }
         return obj;
     }
+
+    /**
+     * 根据众筹明细ID获取当前众筹项目的状态
+     *
+     * @param cfdId 众筹明细ID
+     * @return 众筹项目的状态 1 成功 2正在进行 3失败
+     */
+    @RequestMapping(value = "queryCFStatusByCFDId")
+    @ResponseBody
+    public Map<String, Object> queryCFStatusByCFDId(String cfdId) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> status = crowdfundingService.queryCFStatusByCFDId(cfdId);
+            if (status != null && status.size() > 0) {
+                obj.put("status", status.get(0));
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }
