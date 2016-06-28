@@ -107,14 +107,16 @@ public class MasterApplyController {
     public Map<String, Object> qMasterById(String id) {
         try {
             Map<String, Object> records = masterApplyService.qMasterById(id);
-            if (records.size() == 0) {
-                records.put(Constant.REQRESULT, Constant.NO_DATA);
-                records.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            if (records.get("master_apply") == null) {
+                Map<String, Object> obj = new HashMap<String, Object>();
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+                return obj;
             } else {
                 records.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 records.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+                return records;
             }
-            return records;
         } catch (Exception e) {
             Map<String, Object> obj = new HashMap<String, Object>();
             obj.put(Constant.REQRESULT, Constant.REQFAILED);

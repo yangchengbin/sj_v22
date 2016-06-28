@@ -32,7 +32,7 @@ public class MasterApplyService {
     }
 
     public Map<String, Object> qMasterById(String id) {
-        return procedureDao.callProcedureFlex("qMasterById(?)", id);
+        return procedureDao.callProcedureOneToMany("qMasterById(?)", id);
     }
 
     public Map<String, Object> qCheckApplyStatus(String userId) {

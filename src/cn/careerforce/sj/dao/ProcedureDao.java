@@ -208,4 +208,63 @@ public class ProcedureDao {
         );
         return obj;
     }
+
+    /**
+     * 增强版 jdbcTemplate 调用 存储过程 返回结果一对多
+     *
+     * @param procedureName 存储过程名字,包含参数 eg:teacher_student(?)
+     * @param params        参数值
+     * @return
+     */
+    public Map<String, Object> callProcedureOneToMany(final String procedureName, final Object... params) {
+        Map<String, Object> obj = (Map<String, Object>) jdbcTemplate.execute(
+                new CallableStatementCreator() {
+                    public CallableStatement createCallableStatement(Connection con) throws SQLException {
+                        String sql = "{call " + procedureName + "}";
+                        CallableStatement cs = con.prepareCall(sql);
+                        for (int i = 0; i < params.length; i++) {
+                            cs.setObject(i + 1, params[i]);
+                        }
+                        return cs;
+                    }
+                }, new CallableStatementCallback() {
+                    public Map doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {
+                        boolean hadResults = cs.execute();
+                        Map<String, Object> resultMap = new HashMap<String, Object>();
+                        ResultSet rs;
+                        ResultSetMetaData resultSetMetaData;
+                        String tableName;
+                        List<Map<String, Object>> list;
+                        boolean flag = false;
+                        while (hadResults) {
+                            rs = cs.getResultSet();
+                            resultSetMetaData = rs.getMetaData();
+                            tableName = resultSetMetaData.getTableName(1); //获取根据检索的列所在的表名
+                            list = new ArrayList<Map<String, Object>>();
+                            Map<String, Object> map = null;
+                            int columnCount;
+                            while (rs != null && rs.next()) {
+                                map = new HashMap<String, Object>();
+                                columnCount = resultSetMetaData.getColumnCount();
+                                for (int i = 1; i <= columnCount; i++) {
+                                    map.put(resultSetMetaData.getColumnLabel(i), rs.getObject(i));
+                                }
+                                if (flag) {
+                                    list.add(map);
+                                }
+                            }
+                            if (flag) {
+                                resultMap.put(tableName, list);
+                            } else {
+                                resultMap.put(tableName, map);
+                                flag = true;
+                            }
+                            hadResults = cs.getMoreResults();
+                        }
+                        return resultMap;
+                    }
+                }
+        );
+        return obj;
+    }
 }
