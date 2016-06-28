@@ -44,14 +44,14 @@ public class MasterApplyController {
     /**
      * 查询审核状态
      *
-     * @param id 申请ID
+     * @param userId 申请用户userId
      * @return
      */
     @RequestMapping(value = "qCheckStatus")
     @ResponseBody
-    public Map<String, Object> qCheckStatus(String id) {
+    public Map<String, Object> qCheckStatus(String userId) {
         try {
-            Map<String, Object> records = masterApplyService.qCheckStatus(id);
+            Map<String, Object> records = masterApplyService.qCheckStatus(userId);
             if (records.size() == 0) {
                 records.put(Constant.REQRESULT, Constant.NO_DATA);
                 records.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
