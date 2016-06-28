@@ -26,7 +26,7 @@ public class MainDao {
     }
 
     public List<Map<String, Object>> queryProducts(int pageNumber, int pageSize) {
-        String sql = "SELECT g.id, g.cover_img_detail AS cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 ORDER BY g.seq2, g.amount DESC, g.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT g.id, g.cover_img_detail, g.cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 ORDER BY g.seq2, g.amount DESC, g.create_time DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 

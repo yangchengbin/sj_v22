@@ -30,7 +30,7 @@ public class SearchDao {
     }
 
     public List<Map<String, Object>> queryProducts(int type, String key, int pageNumber, int pageSize) {
-        String sql = "SELECT  " + type + " AS type, g.id, g.cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 AND g.title LIKE ? ORDER BY g.sale_count DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
+        String sql = "SELECT  " + type + " AS type, g.id, g.cover_img, g.cover_img_detail, g.title, g.price FROM goods g WHERE g.valid = 1 AND g.title LIKE ? ORDER BY g.sale_count DESC LIMIT " + (pageNumber - 1) * pageSize + ", " + pageSize;
         return jdbcTemplate.queryForList(sql, "%" + key + "%");
     }
 

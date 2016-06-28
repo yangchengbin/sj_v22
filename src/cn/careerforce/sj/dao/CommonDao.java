@@ -59,7 +59,7 @@ public class CommonDao {
     }
 
     public List<Map<String, Object>> queryProducts(int recordIndex, int pageSize) {
-        String sql = "SELECT g.id, g.cover_img_detail AS cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 AND g.putaway = 1 ORDER BY g.seq LIMIT " + recordIndex + " , " + pageSize;
+        String sql = "SELECT g.id, g.cover_img_detail, g.cover_img, g.title, g.price FROM goods g WHERE g.valid = 1 AND g.putaway = 1 ORDER BY g.seq LIMIT " + recordIndex + " , " + pageSize;
         return jdbcTemplate.queryForList(sql);
     }
 }
