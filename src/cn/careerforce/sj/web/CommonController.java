@@ -4,12 +4,14 @@ import cn.careerforce.config.Configuration;
 import cn.careerforce.config.Global;
 import cn.careerforce.sj.service.CommonService;
 import cn.careerforce.sj.utils.Constant;
+import cn.careerforce.sj.utils.HttpPostUtil;
 import cn.careerforce.util.http.HttpRequest;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -120,6 +122,32 @@ public class CommonController {
             List<Map<String, Object>> products = commonService.queryProducts(recordIndex, pageSize); //商品
             if (products != null && products.size() > 0) {
                 obj.put("products", products);
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
+
+    /**
+     * 上传到图片服务器
+     *
+     * @return
+     */
+    @RequestMapping(value = "uploadFile")
+    @ResponseBody
+    public Map<String, Object> uploadFile(@RequestParam(required = false) MultipartFile[] image) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            if (image != null && image.length > 0) {
+                List<String> imageUrls = HttpPostUtil.upload(image);
+                obj.put("imageUrls", imageUrls);
                 obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
                 obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
             } else {
