@@ -14,3 +14,6 @@ goods表添加 sale_count 销售数量
 新增 master_apply  大师申请表
 新增大师申请相关图片表rel_pictures
 personage表新增source字段
+添加check_flow表审核过程表
+crowdfunding表添加is_gy字段 是否为公益
+crowdfunding_detail 表添加 type字段 1回报 2无偿 3抽奖

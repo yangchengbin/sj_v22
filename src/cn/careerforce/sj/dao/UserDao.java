@@ -95,4 +95,9 @@ public class UserDao {
         String sql = "INSERT INTO improvement ( content, contact_info, create_time ) VALUES ( ?, ?, UNIX_TIMESTAMP(now()))";
         jdbcTemplate.update(sql, content, contactInfo);
     }
+
+    public List<Map<String, Object>> queryInfoByIds(String userIds) {
+        String sql = "SELECT id, nick_name, head_img, career, age FROM `user` WHERE id IN (" + userIds + ")";
+        return jdbcTemplate.queryForList(sql);
+    }
 }

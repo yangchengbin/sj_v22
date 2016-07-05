@@ -57,4 +57,8 @@ public class UserService {
     public void addImproveInfo(String content, String contactInfo) {
         userDao.addImproveInfo(content, contactInfo);
     }
+
+    public List<Map<String, Object>> queryInfoByIds(String userIds) {
+        return userDao.queryInfoByIds(userIds);
+    }
 }

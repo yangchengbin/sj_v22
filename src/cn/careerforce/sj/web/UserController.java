@@ -310,4 +310,31 @@ public class UserController {
         }
         return obj;
     }
+
+    /**
+     * 根据用户userId获取用户信息，逗号隔开
+     *
+     * @return
+     */
+    @RequestMapping(value = "queryInfoByIds")
+    @ResponseBody
+    public Map<String, Object> queryInfoByIds(@RequestParam(required = true) String userIds) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> users = userService.queryInfoByIds(userIds);
+            if (users != null && users.size() > 0) {
+                obj.put("users", users);
+                obj.put("count", users.size());
+                obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+                obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+            } else {
+                obj.put(Constant.REQRESULT, Constant.NO_DATA);
+                obj.put(Constant.MESSAGE, Constant.MSG_NO_DATA);
+            }
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }
