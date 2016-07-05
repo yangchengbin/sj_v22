@@ -1,6 +1,7 @@
 package cn.careerforce.sj.service;
 
 import cn.careerforce.sj.dao.PersonageDao;
+import cn.careerforce.sj.dao.ProcedureDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +20,9 @@ import java.util.Map;
 public class PersonageService {
     @Resource
     private PersonageDao personageDao;
+
+    @Resource
+    private ProcedureDao procedureDao;
 
     public List<Map<String, Object>> queryPersonInfo(String personageId) {
         return personageDao.queryPersonInfo(personageId);
@@ -102,5 +106,9 @@ public class PersonageService {
 
     public List<Map<String, Object>> queryPersonMoreInfo(String userId) {
         return personageDao.queryPersonMoreInfo(userId);
+    }
+
+    public Map<String, Object> qAnchorInfo(String userId) {
+        return procedureDao.callProcedureOneToMany("qAnchorInfo(?)", userId);
     }
 }

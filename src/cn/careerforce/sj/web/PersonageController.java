@@ -428,4 +428,33 @@ public class PersonageController {
         }
         return obj;
     }
+
+    /**
+     * 根据userId获取主播信息
+     *
+     * @param userId 人物ID
+     * @return
+     */
+    @RequestMapping(value = "qAnchorInfo")
+    @ResponseBody
+    public Map<String, Object> qAnchorInfo(@RequestParam(required = true) String userId) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            Map<String, Object> anchor = (Map<String, Object>) personageService.qAnchorInfo(userId).get("personage");
+            JSONObject attentionJson = commonService.queryAttentionCount("live", userId);
+            if (attentionJson != null) {
+                anchor.put("fansNum", attentionJson.get("message"));
+            } else {
+                anchor.put("fansNum", "0");
+            }
+            obj.put("anchor", anchor);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }
