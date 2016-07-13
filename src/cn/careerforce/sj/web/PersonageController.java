@@ -457,4 +457,29 @@ public class PersonageController {
         }
         return obj;
     }
+
+    /**
+     * 根据userId获取大师用户名和头像
+     *
+     * @param userId 人物ID
+     * @return
+     */
+    @RequestMapping(value = "queryMasterInfo")
+    @ResponseBody
+    public Map<String, Object> queryMasterInfo(@RequestParam(required = true) String userId) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            Map<String, Object> master = (Map<String, Object>) personageService.qAnchorInfo(userId).get("personage");
+            obj.put("name", master.get("pname"));
+            obj.put("headImg", master.get("head_img"));
+            obj.put("career", master.get("career"));
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return obj;
+    }
 }
