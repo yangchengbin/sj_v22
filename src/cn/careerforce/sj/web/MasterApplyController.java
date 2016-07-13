@@ -3,6 +3,7 @@ package cn.careerforce.sj.web;
 import cn.careerforce.sj.model.Master;
 import cn.careerforce.sj.service.MasterApplyService;
 import cn.careerforce.sj.utils.Constant;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -145,5 +146,27 @@ public class MasterApplyController {
             obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
         }
         return obj;
+    }
+
+
+    /**
+     * 新增申请跨域访问
+     *
+     * @param master 申请人信息
+     * @return
+     */
+    @RequestMapping(value = "addMasterJsonP")
+    @ResponseBody
+    public JSONPObject addMasterJsonP(Master master, String callback) {
+        Map<String, Object> obj = new HashMap<String, Object>();
+        try {
+            masterApplyService.addMaster(master);
+            obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
+        } catch (Exception e) {
+            obj.put(Constant.REQRESULT, Constant.REQFAILED);
+            obj.put(Constant.MESSAGE, Constant.MSG_REQ_FAILED);
+        }
+        return new JSONPObject(callback, obj);
     }
 }

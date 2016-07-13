@@ -22,6 +22,7 @@ public class Master {
     private String recommendedPerson = "";
     private String recommendation = "";
     private String description = "";
+    private String source = "APP";
     private String relatedImages = ""; //相关作品、工作室图片，逗号隔开
 
     public int getId() {
@@ -166,6 +167,14 @@ public class Master {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getRelatedImages() {

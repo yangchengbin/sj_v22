@@ -27,8 +27,8 @@ public class MasterApplyDao {
     private JdbcTemplate jdbcTemplate;
 
     public int addMaster(Master master) {
-        final String sqlSave = "INSERT INTO master_apply ( user_id, NAME, sex, head_img, id_card_positive, id_card_opposite, career, region, telephone, wx_no, work_time, personal_brand, shop_address, cooperation_platform, recommended_person, recommendation, description, create_time ) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, UNIX_TIMESTAMP())";
-        final Object[] argsSave = new Object[]{master.getUserId(), master.getName(), master.getSex(), master.getHeadImg(), master.getIdCardPositive(), master.getIdCardOpposite(), master.getCareer(), master.getRegion(), master.getTelephone(), master.getWxNo(), master.getWorkTime(), master.getPersonalBrand(), master.getShopAddress(), master.getCooperationPlatform(), master.getRecommendedPerson(), master.getRecommendation(), master.getDescription()};
+        final String sqlSave = "INSERT INTO master_apply ( user_id, NAME, sex, head_img, id_card_positive, id_card_opposite, career, region, telephone, wx_no, work_time, personal_brand, shop_address, cooperation_platform, recommended_person, recommendation, description, source, create_time ) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, UNIX_TIMESTAMP())";
+        final Object[] argsSave = new Object[]{master.getUserId(), master.getName(), master.getSex(), master.getHeadImg(), master.getIdCardPositive(), master.getIdCardOpposite(), master.getCareer(), master.getRegion(), master.getTelephone(), master.getWxNo(), master.getWorkTime(), master.getPersonalBrand(), master.getShopAddress(), master.getCooperationPlatform(), master.getRecommendedPerson(), master.getRecommendation(), master.getDescription(), master.getSource()};
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
