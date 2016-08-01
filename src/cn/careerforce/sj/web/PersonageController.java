@@ -441,7 +441,7 @@ public class PersonageController {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
             Map<String, Object> anchor = (Map<String, Object>) personageService.qAnchorInfo(userId).get("personage");
-            JSONObject attentionJson = commonService.queryAttentionCount("live", userId);
+            JSONObject attentionJson = commonService.queryAttentionCount("figure", userId);
             if (attentionJson != null) {
                 anchor.put("fansNum", attentionJson.get("message"));
             } else {
