@@ -32,7 +32,8 @@ public class MasterApplyController {
     public Map<String, Object> addMaster(Master master) {
         Map<String, Object> obj = new HashMap<String, Object>();
         try {
-            masterApplyService.addMaster(master);
+            int id = masterApplyService.addMaster(master);
+            obj.put("id", id);
             obj.put(Constant.REQRESULT, Constant.REQSUCCESS);
             obj.put(Constant.MESSAGE, Constant.MSG_REQ_SUCCESS);
         } catch (Exception e) {
